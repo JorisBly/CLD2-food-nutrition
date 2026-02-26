@@ -3,6 +3,7 @@ import {dates} from "@/server/db/schema/columns.helper";
 
 export const users = pgTable('users', {
     id: serial('id').primaryKey(),
+    email: varchar('email'),
     userName: varchar('username'),
     firstName: varchar('firstname'),
     lastName: varchar('lastname'),

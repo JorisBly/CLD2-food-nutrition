@@ -8,6 +8,13 @@
       "when": 1772096826318,
       "tag": "0001_sweet_ulik",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1772104493331,
+      "tag": "0002_damp_johnny_storm",
+      "breakpoints": true
     }
   ]
 }
