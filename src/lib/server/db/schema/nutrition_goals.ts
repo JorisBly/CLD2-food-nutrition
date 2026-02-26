@@ -1,10 +1,10 @@
 import {pgTable, serial, real, decimal, timestamp, integer} from 'drizzle-orm/pg-core';
-import {user} from "@/server/db/schema/user";
+import {users} from "@/server/db/schema/users";
 import {dates} from "@/server/db/schema/columns.helper";
 
-export const nutritionGoal = pgTable('nutrition_goals', {
+export const nutritionGoals = pgTable('nutrition_goals', {
     id: serial('id').primaryKey(),
-    userId: integer('user_id').references(()=>user.id),
+    userId: integer('user_id').references(()=>users.id),
     dailyCalories: real('daily_calories').notNull(),
     targetProteins: decimal('target_proteins', {precision: 5, scale: 2}).notNull(),
     targetCarbs: decimal('target_carbs', {precision: 5, scale: 2}).notNull(),

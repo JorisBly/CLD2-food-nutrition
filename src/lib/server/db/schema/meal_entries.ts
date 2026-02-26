@@ -1,12 +1,12 @@
 import {decimal, integer, pgTable, real, serial} from 'drizzle-orm/pg-core';
 import {dates} from "@/server/db/schema/columns.helper";
-import {meal} from "@/server/db/schema/meal";
-import {foodItem} from "@/server/db/schema/food_item";
+import {meals} from "@/server/db/schema/meals";
+import {foodItems} from "@/server/db/schema/food_items";
 
-export const mealEntry = pgTable('meal_entries', {
+export const mealEntries = pgTable('meal_entries', {
     id: serial('id').primaryKey(),
-    mealId: integer('meal_id').references(() => meal.id).notNull(),
-    foodItemId: integer('food_item_id').references(() => foodItem.id).notNull(),
+    mealId: integer('meal_id').references(() => meals.id).notNull(),
+    foodItemId: integer('food_item_id').references(() => foodItems.id).notNull(),
     quantity: real().notNull(),
     caloriesTotal: decimal('calories_total', {precision: 10, scale: 2}).notNull(),
     ProteinsTotal: decimal('proteins_total', {precision: 10, scale: 2}).notNull(),

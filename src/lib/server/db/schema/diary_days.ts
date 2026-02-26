@@ -1,10 +1,10 @@
 import {date, integer, pgTable, serial} from 'drizzle-orm/pg-core';
-import {user} from "@/server/db/schema/user";
+import {users} from "@/server/db/schema/users";
 import {dates} from "@/server/db/schema/columns.helper";
 
-export const diary_day = pgTable('diary_days', {
+export const diary_days = pgTable('diary_days', {
     id: serial('id').primaryKey(),
-    userId: integer('user_id').references(() =>user.id),
+    userId: integer('user_id').references(() =>users.id),
     date: date(),
     ...dates,
 })
