@@ -1,5 +1,5 @@
 import {date, decimal, integer, pgTable, serial} from 'drizzle-orm/pg-core';
-import {dates, timestamps} from "@/server/db/schema/columns.helper";
+import {dates} from "@/server/db/schema/columns.helper";
 import {user} from "@/server/db/schema/user";
 
 export const weightEntry = pgTable('weight_entries', {

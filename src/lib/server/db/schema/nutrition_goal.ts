@@ -1,6 +1,6 @@
 import {pgTable, serial, real, decimal, timestamp, integer} from 'drizzle-orm/pg-core';
 import {user} from "@/server/db/schema/user";
-import {dates, timestamps} from "@/server/db/schema/columns.helper";
+import {dates} from "@/server/db/schema/columns.helper";
 
 export const nutritionGoal = pgTable('nutrition_goals', {
     id: serial('id').primaryKey(),

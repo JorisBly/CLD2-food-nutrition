@@ -1,5 +1,5 @@
-import {date, integer, pgTable, serial} from 'drizzle-orm/pg-core';
-import {dates, mealType, timestamps} from "@/server/db/schema/columns.helper";
+import {integer, pgTable, serial} from 'drizzle-orm/pg-core';
+import {dates, mealType} from "@/server/db/schema/columns.helper";
 import {diary_day} from "@/server/db/schema/diary_day";
 
 export const meal = pgTable('meals', {

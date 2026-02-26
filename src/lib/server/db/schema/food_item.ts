@@ -1,5 +1,5 @@
 import {pgTable, serial, real, decimal, timestamp, varchar} from 'drizzle-orm/pg-core';
-import {dates, timestamps} from "@/server/db/schema/columns.helper";
+import {dates} from "@/server/db/schema/columns.helper";
 
 export const foodItem = pgTable('food_items', {
     id: serial('id').primaryKey(),

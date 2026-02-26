@@ -1,5 +1,5 @@
 import {decimal, integer, pgTable, real, serial} from 'drizzle-orm/pg-core';
-import {dates, timestamps} from "@/server/db/schema/columns.helper";
+import {dates} from "@/server/db/schema/columns.helper";
 import {meal} from "@/server/db/schema/meal";
 import {foodItem} from "@/server/db/schema/food_item";
 
