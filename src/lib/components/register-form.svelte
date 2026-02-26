@@ -1,21 +1,20 @@
 <script lang="ts">
     import { Button } from "$lib/components/ui/button/index.js";
-    import * as Card from "$lib/components/ui/card/index.js";
+    import {Card, CardHeader, CardTitle, CardDescription, CardContent} from "$lib/components/ui/card/index.js";
     import { Input } from "$lib/components/ui/input/index.js";
     import {
         FieldGroup,
         Field,
         FieldLabel,
-        FieldDescription,
     } from "$lib/components/ui/field/index.js";
     const id = $props.id();
 </script>
-<Card.Root class="mx-auto w-full max-w-sm">
-    <Card.Header>
-        <Card.Title class="text-2xl">Register</Card.Title>
-        <Card.Description>Enter your email below to register a new account</Card.Description>
-    </Card.Header>
-    <Card.Content>
+<Card class="mx-auto w-full max-w-sm">
+    <CardHeader>
+        <CardTitle class="text-2xl">Register</CardTitle>
+        <CardDescription>Enter your email below to register a new account</CardDescription>
+    </CardHeader>
+    <CardContent>
         <form>
             <FieldGroup>
                 <Field>
@@ -33,5 +32,5 @@
                 </Field>
             </FieldGroup>
         </form>
-    </Card.Content>
-</Card.Root>
+    </CardContent>
+</Card>
