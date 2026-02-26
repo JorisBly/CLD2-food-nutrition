@@ -1,0 +1,74 @@
+erDiagram
+    users ||--o{ diary_days : "consulte"
+    users ||--o{ weight_entries : "enregistre"
+    users ||--o{ sessions : "possède"
+    users ||--o{ nutrition_goals : "définit"
+    users ||--o{ weight_entries : "enregistre"
+    users ||--o{ diary_days : "consulte"
+    users ||--o{ food_items : "crée (custom)"
+
+    diary_days ||--o{ meals : "contient"
+    meals ||--o{ meal_entries : "comprend"
+
+    food_items |o--o{ meal_entries : "est référencé"
+
+
+sessions {
+    PRIMARY_KEY session_id
+    Uint8Array secretHash
+    datetime created_at
+}
+
+users {
+    PRIMARY_KEY id
+    string username
+    string firstname
+    string lastname
+    varchar password
+}
+
+nutrition_goals {
+    PRIMARY_KEY id
+    FOREIGN_KEY user_id
+    float daily_calories
+    float target_protein
+    float target_carbs
+    float target_fat
+    datetime start_date
+    datetime end_date
+}
+
+meals {
+    PRIMARY_KEY meal_id
+    FOREIGN_KEY diary_day_id
+    enum type
+}
+
+meal_entries {
+    PRIMARY_KEY meal_id
+    FOREIGN_KEY food_item_id
+    int quantity
+}
+
+
+
+food_items {
+    PRIMARY_KEY food_item_id
+    string name
+    decimal calorie
+    decimal protein
+    decimal carb
+    decimal fat
+}
+
+    diary_days {
+    FOREIGN_KEY user_id
+    timestamp date
+}
+
+weight_entries {
+    PRIMARY_KEY weight_entry_id
+    FOREIGN_KEY user_id
+    decimal weight
+    datetime date
+}
