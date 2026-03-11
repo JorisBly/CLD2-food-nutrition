@@ -6,7 +6,7 @@
     import {
         FieldGroup,
     } from "$lib/components/ui/field/index.js";
-    import {formSchema, type FormSchema} from "../../routes/register/schema";
+    import {registerSchema, type FormSchema} from "../../routes/register/schema";
     import {superForm, type SuperValidated, type Infer,} from "sveltekit-superforms";
     import {zod4Client} from "sveltekit-superforms/adapters";
 
@@ -14,7 +14,7 @@
         $props();
 
     const form = superForm(data.form, {
-        validators: zod4Client(formSchema),
+        validators: zod4Client(registerSchema),
     });
 
     const { form: formData, enhance } = form;
@@ -28,6 +28,39 @@
     <CardContent>
         <form method="POST" action="/login?/register"  use:enhance>
             <FieldGroup>
+                <Field {form} name="username">
+                    <FormControl>
+                        {#snippet children({ props })}
+
+                            <FormLabel>Username</FormLabel>
+                            <Input type="text" {...props} bind:value={$formData.username} />
+
+                        {/snippet}
+                    </FormControl>
+                </Field>
+
+                <Field {form} name="firstname">
+                    <FormControl>
+                        {#snippet children({ props })}
+
+                            <FormLabel>First name</FormLabel>
+                            <Input type="text" {...props} bind:value={$formData.firstname} />
+
+                        {/snippet}
+                    </FormControl>
+                </Field>
+
+                <Field {form} name="lastname">
+                    <FormControl>
+                        {#snippet children({ props })}
+
+                            <FormLabel>Last name</FormLabel>
+                            <Input type="text" {...props} bind:value={$formData.lastname} />
+
+                        {/snippet}
+                    </FormControl>
+                </Field>
+
                 <Field {form} name="email">
                 <FormControl>
                     {#snippet children({ props })}
