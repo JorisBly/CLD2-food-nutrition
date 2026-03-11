@@ -6,7 +6,7 @@
     import {
         FieldGroup,
     } from "$lib/components/ui/field/index.js";
-    import {formSchema, type FormSchema} from "../../routes/register/schema";
+    import {loginSchema, type FormSchema} from "../../routes/login/schema";
     import {superForm, type SuperValidated, type Infer,} from "sveltekit-superforms";
     import {zod4Client} from "sveltekit-superforms/adapters";
 
@@ -14,7 +14,7 @@
         $props();
 
     const form = superForm(data.form, {
-        validators: zod4Client(formSchema),
+        validators: zod4Client(loginSchema),
     });
 
     const { form: formData, enhance } = form;
@@ -26,7 +26,7 @@
         <CardDescription>Enter your email and password below to login</CardDescription>
     </CardHeader>
     <CardContent>
-        <form method="POST" action="/login?/register"  use:enhance>
+        <form method="POST" action="?/login"  use:enhance>
             <FieldGroup>
                 <Field {form} name="email">
                     <FormControl>
@@ -48,7 +48,7 @@
                         {/snippet}
                     </FormControl>
                 </Field>
-
+                <a class="w-full text-center text-sky-600" href="/register">No account already ? Create one now !</a>
                 <Button type="submit" class="w-full">Login</Button>
             </FieldGroup>
         </form>
