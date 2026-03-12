@@ -6,31 +6,7 @@
     import {scaleUtc} from "d3-scale";
     import { Area, AreaChart } from "layerchart";
     import { curveNatural } from "d3-shape";
-    const chartData = [
-        { date: new Date("2024-04-01"), weight: 222},
-        { date: new Date("2024-04-02"), weight: 97 },
-        { date: new Date("2024-04-03"), weight: 167},
-        { date: new Date("2024-04-04"), weight: 242},
-        { date: new Date("2024-04-05"), weight: 373},
-        { date: new Date("2024-04-06"), weight: 301},
-        { date: new Date("2024-04-07"), weight: 245},
-        { date: new Date("2024-04-08"), weight: 409},
-        { date: new Date("2024-04-09"), weight: 59},
-        { date: new Date("2024-04-10"), weight: 261},
-        { date: new Date("2024-04-11"), weight: 327},
-        { date: new Date("2024-04-12"), weight: 292 },
-        { date: new Date("2024-04-13"), weight: 342},
-        { date: new Date("2024-04-14"), weight: 137},
-        { date: new Date("2024-04-15"), weight: 120},
-        { date: new Date("2024-04-16"), weight: 138},
-        { date: new Date("2024-04-17"), weight: 446},
-        { date: new Date("2024-04-18"), weight: 364},
-        { date: new Date("2024-04-19"), weight: 243},
-        { date: new Date("2024-04-20"), weight: 89},
-        { date: new Date("2024-04-21"), weight: 137},
-        { date: new Date("2024-04-22"), weight: 224},
-        { date: new Date("2024-04-23"), weight: 138},
-    ];
+    const {chartData, chartConfig} = $props()
     let timeRange = $state("90d");
     const selectedLabel = $derived.by(() => {
         switch (timeRange) {
@@ -47,7 +23,7 @@
     const filteredData = $derived(
         chartData.filter((item) => {
             // eslint-disable-next-line svelte/prefer-svelte-reactivity
-            const referenceDate = new Date("2024-06-30");
+            const referenceDate = new Date();
             let daysToSubtract = 90;
             if (timeRange === "30d") {
                 daysToSubtract = 30;
@@ -55,12 +31,19 @@
                 daysToSubtract = 7;
             }
             referenceDate.setDate(referenceDate.getDate() - daysToSubtract);
-            return item.date >= referenceDate;
+
+            const itemDate = new Date(item.date)
+            return itemDate >= referenceDate;
         })
+            .map((item) => {
+                const itemDate = new Date(item.date);
+                return {
+                    ...item,
+                    date: itemDate,
+                }
+            })
     );
-    const chartConfig = {
-        weight: { label: "Weight", color: "var(--primary)" },
-        } satisfies Chart.ChartConfig;
+
 </script>
 <Card.Root class="@container/card">
     <Card.Header>
