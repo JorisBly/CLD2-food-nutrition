@@ -19,7 +19,7 @@ Add    import MealIcon from "$lib/icons/meal.svelte";
                 icon: DashboardIcon,
             },
             {
-                title: "Weight diary",
+                title: "Weights",
                 url: "/weight",
                 icon: WeightIcon,
             },
