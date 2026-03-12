@@ -33,7 +33,7 @@ export const load: LayoutServerLoad = async ({ cookies, url }) => {
     }
 
     if (isPublicPage) {
-        throw redirect(303, '/home')
+        throw redirect(303, '/dashboard')
     }
 
     const [user] = await db.select({
