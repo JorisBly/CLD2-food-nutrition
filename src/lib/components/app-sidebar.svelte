@@ -5,6 +5,7 @@
     import type { ComponentProps } from "svelte";
     import WeightIcon from "$lib/icons/weight.svelte";
     import MealIcon from "$lib/icons/meal.svelte";
+    import AlimentIcon from "$lib/icons/aliment.svelte";
 
     const data = {
         user: {
@@ -25,8 +26,14 @@
             },
             {
                 title: "Meals",
-                url: "/meals",
                 icon : MealIcon,
+                items: [
+                    {
+                        title: "Food items",
+                        url: "/meal/food-items",
+                        icon: AlimentIcon,
+                    },
+                ],
             }
         ],
     };
