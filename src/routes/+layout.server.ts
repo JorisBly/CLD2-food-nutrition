@@ -7,7 +7,7 @@ import {users} from "@/server/db/schema/users";
 
 export const load: LayoutServerLoad = async ({ cookies, url }) => {
 
-    const publicRouteRegex = /^\/(login|register)/i;
+    const publicRouteRegex = /^\/(login|register)/i
     const isPublicPage = publicRouteRegex.test(url.pathname)
 
     const sessionToken = cookies.get('session_token')
@@ -25,15 +25,27 @@ export const load: LayoutServerLoad = async ({ cookies, url }) => {
 
     if (session === null) {
         cookies.delete('session_token', { path: '/' });
-        redirect(307, '/login');
-    }else{
-        redirect(301, '/home');
+        redirect(307, '/login')
+        if (!isPublicPage) {
+            throw redirect(307, '/login')
+        }
+        return { user: null }
     }
 
-    const [user] = await db.select().from(users).where(sql`${users.id} = ${session.userId}`).limit(1)
+    if (isPublicPage) {
+        throw redirect(303, '/home')
+    }
+
+    const [user] = await db.select({
+        id: users.id,
+        firstName: users.firstName,
+        lastName: users.lastName,
+        email: users.email,
+        createdAt: users.created_at,
+    }
+    ).from(users).where(sql`${users.id} = ${session.userId}`).limit(1)
     return {
         user: user ?? null,
-        session : session
     }
 
 };
