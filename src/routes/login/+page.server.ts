@@ -43,7 +43,7 @@ export const actions: Actions = {
 
         await createCookie(cookies, token)
 
-        redirect(302, '/home')
+        redirect(302, '/dashboard')
 
         return { success: true }
     },
