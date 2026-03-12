@@ -2,4 +2,4 @@
     import Icon from '@iconify/svelte';
 </script>
 
-<Icon icon="fa7-solid:weight" width="640" height="640" />
+<Icon icon="healthicons:weight-outline" width="48" height="48" />
