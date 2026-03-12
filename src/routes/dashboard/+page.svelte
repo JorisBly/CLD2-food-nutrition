@@ -1,8 +1,10 @@
 <script lang="ts">
-    import {SidebarInset, SidebarProvider} from "@/components/ui/sidebar";
-    import AppSidebar from "$lib/components/app-sidebar.svelte";
-    import SiteHeader from "$lib/components/site-header.svelte";
     import ChartAreaInteractive from "$lib/components/chart-area-interactive.svelte";
+
+    let {data} = $props()
+
 </script>
 
-<ChartAreaInteractive />
+{#each data.charts as chart }
+    <ChartAreaInteractive chartData={chart.chartData} chartConfig={chart.chartConfig} />
+{/each}
