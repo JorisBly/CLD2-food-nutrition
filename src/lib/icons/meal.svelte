@@ -3,4 +3,4 @@
 import Icon from "@iconify/svelte";
 </script>
 
-<Icon icon="game-icons:meal" width="512" height="512" />
+<Icon icon="healthicons:hot-meal-outline" width="48" height="48" />
