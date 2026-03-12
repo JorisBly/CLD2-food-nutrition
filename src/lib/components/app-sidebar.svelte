@@ -4,7 +4,7 @@
     import NavMain from "./nav-main.svelte";
     import type { ComponentProps } from "svelte";
     import WeightIcon from "$lib/icons/weight.svelte";
-Add    import MealIcon from "$lib/icons/meal.svelte";
+    import MealIcon from "$lib/icons/meal.svelte";
 
     const data = {
         user: {
