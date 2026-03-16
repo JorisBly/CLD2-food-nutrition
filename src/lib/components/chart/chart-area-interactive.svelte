@@ -1,8 +1,8 @@
 <script lang="ts">
-    import * as Chart from "$lib/components/ui/chart/index.ts";
-    import * as Card from "$lib/components/ui/card/index.ts";
-    import * as Select from "$lib/components/ui/select/index.ts";
-    import * as ToggleGroup from "$lib/components/ui/toggle-group/index.ts";
+    import * as Chart from "@/components/ui/chart";
+    import * as Card from "@/components/ui/card";
+    import * as Select from "@/components/ui/select";
+    import * as ToggleGroup from "@/components/ui/toggle-group";
     import {scaleUtc} from "d3-scale";
     import { Area, AreaChart } from "layerchart";
     import { curveNatural } from "d3-shape";

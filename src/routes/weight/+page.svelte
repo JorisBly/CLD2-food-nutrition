@@ -1,8 +1,8 @@
 <script lang="ts">
-import DataTable from "@/components/data-table.svelte";
+import DataTable from "@/components/table/data-table.svelte";
 import {columns} from "./columns";
-import SideSheet from "@/components/side-sheet.svelte";
-import WeightForm from "@/components/weight-form.svelte";
+import SideSheet from "@/components/form/side-sheet.svelte";
+import WeightForm from "@/components/form/weight-form.svelte";
 
 let {data} = $props();
 

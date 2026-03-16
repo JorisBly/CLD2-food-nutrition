@@ -6,9 +6,10 @@ import {db} from "@/server/db";
 import {users} from "@/server/db/schema/users";
 import {fail, redirect} from "@sveltejs/kit";
 import bcrypt from "bcrypt";
-import {createCookie, createSession, getSessionByUserId} from "@/server/auth";
+import {checkUser, createCookie, createSession} from "@/server/auth";
 import {loginSchema} from "./schema";
 import type {User} from "@/types";
+import {getUserByEmail} from "@/server/api.ts";
 
 export const load: PageServerLoad = async () => {
     return {
@@ -29,17 +30,17 @@ export const actions: Actions = {
 
 
 
-        const user: User = await db.query.users.findFirst({
-            where: (users, { eq }) => eq(users.email, form.data.email)
-        })
+        const user: User[] = await getUserByEmail(form.data.email)
 
-        if (!user) {
+        if (user.length === 0) {
+            return fail(400, {})
+        }else if(!await checkUser(user[0], form.data.password)){
             return fail(400, {})
         }
 
 
 
-        const token = await createSession(user)
+        const token = await createSession(user[0])
 
         await createCookie(cookies, token)
 

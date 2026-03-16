@@ -5,7 +5,7 @@ import {zod4} from "sveltekit-superforms/adapters";
 import {weightSchema} from "./schema";
 import {registerSchema} from "../register/schema.ts";
 import {db} from "@/server/db";
-import {weightEntry} from "@/server/db/schema/weight_entry.ts";
+import {weightEntries} from "@/server/db/schema/weight_entries.ts";
 
 
 export async function load({ parent }) {
@@ -30,7 +30,7 @@ export const actions : Actions = {
             });
         }
         if (form.data.userId){
-            await db.insert(weightEntry).values({
+            await db.insert(weightEntries).values({
                 userId: form.data.userId,
                 weight: form.data.weight,
                 date:form.data.date})

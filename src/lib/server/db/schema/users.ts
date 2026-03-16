@@ -1,6 +1,7 @@
 import {pgTable, serial, varchar} from 'drizzle-orm/pg-core';
 import {dates,id} from "@/server/db/schema/columns.helper";
 
+
 export const users = pgTable('users', {
     ...id,
     email: varchar('email'),
@@ -10,3 +11,4 @@ export const users = pgTable('users', {
     password: varchar('password'),
     ...dates
     })
+

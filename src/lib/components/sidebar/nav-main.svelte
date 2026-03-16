@@ -1,5 +1,5 @@
 <script lang="ts">
-    import * as Sidebar from "$lib/components/ui/sidebar/index.js";
+    import * as Sidebar from "@/components/ui/sidebar";
     import type { Icon } from "$lib/icons";
     import {redirect} from "@sveltejs/kit";
     import {goto} from "$app/navigation";

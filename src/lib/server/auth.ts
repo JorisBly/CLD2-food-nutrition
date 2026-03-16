@@ -1,11 +1,19 @@
 import {db} from "@/server/db";
 import {sessions} from "@/server/db/schema/sessions";
 import {sql} from "drizzle-orm";
-import {type Session, SessionWithToken, type User} from "@/types";
+import {type Session, type User} from "@/types";
 import type {Cookies} from "@sveltejs/kit";
+import bcrypt from "bcrypt";
 
 
 const sessionExpiresInSeconds = 60 * 60 * 24
+
+export async function checkUser(user:User, password: string){
+    const match = await bcrypt.compare(password, user.password);
+
+    return !!match;
+}
+
 
 export function generateSecureRandomString(): string {
     // Human readable alphabet (a-z, 0-9 without l, o, 0, 1 to avoid confusion)
@@ -28,9 +36,10 @@ export async function createSession(user: User): Promise<string> {
 
     const secret = generateSecureRandomString()
     const secretHash = await hashSecret(secret);
+    const tokenStringForDb = Buffer.from(secretHash).toString('hex')
 
    const newSession = await db.insert(sessions).values({
-        secretHash: secretHash,
+        secretHash: tokenStringForDb,
         userId: user.id,
     }).returning({
        sessionId: sessions.id
@@ -62,7 +71,8 @@ export async function validateSessionToken(token: string): Promise<Session | nul
     }
 
     const tokenSecretHash = await hashSecret(sessionSecret);
-    const validSecret = constantTimeEqual(tokenSecretHash, session.secretHash);
+    const sessionTokenBytes = new Uint8Array(Buffer.from(session.secretHash, 'hex'))
+    const validSecret = constantTimeEqual(tokenSecretHash, sessionTokenBytes);
     if (!validSecret) {
         return null;
     }
@@ -156,7 +166,8 @@ export function getCookies(cookies: Cookies) {
 }
 
 async function checkExpiration(now:Date, session: Session){
-    if (now.getTime() - session.created_at >= sessionExpiresInSeconds * 1000) {
+    const sessionDate = new Date(session.created_at)
+    if (now.getTime() - sessionDate >= sessionExpiresInSeconds * 1000) {
         await deleteSession(session.id);
         return true
     }

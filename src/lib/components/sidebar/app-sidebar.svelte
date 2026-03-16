@@ -1,11 +1,12 @@
 <script lang="ts">
-    import DashboardIcon from "$lib/icons/dashboard.svelte";
-    import * as Sidebar from "$lib/components/ui/sidebar/index.js";
+    import DashboardIcon from "@/icons/dashboard.svelte";
+    import * as Sidebar from "@/components/ui/sidebar";
     import NavMain from "./nav-main.svelte";
     import type { ComponentProps } from "svelte";
-    import WeightIcon from "$lib/icons/weight.svelte";
-    import MealIcon from "$lib/icons/meal.svelte";
+    import WeightIcon from "@/icons/weight.svelte";
+    import MealIcon from "@/icons/meal.svelte";
     import FoodItemIcon from "@/icons/food-item.svelte";
+    import DiaryIcon from "@/icons/diary.svelte";
 
     const data = {
         user: {
@@ -28,6 +29,11 @@
                 title: "Meals",
                 icon : MealIcon,
                 items: [
+                    {
+                        title: "Diary",
+                        url: "/meal/diary",
+                        icon: DiaryIcon,
+                    },
                     {
                         title: "Food items",
                         url: "/meal/food-items",

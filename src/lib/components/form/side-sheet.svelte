@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { Button } from "$lib/components/ui/button/index.js";
-    import * as Sheet from "$lib/components/ui/sheet/index.js";
-    import { buttonVariants } from "$lib/components/ui/button/index.js";
-    import { Input } from "$lib/components/ui/input/index.js";
-    import { Label } from "$lib/components/ui/label/index.js";
+    import { Button } from "@/components/ui/button";
+    import * as Sheet from "@/components/ui/sheet";
+    import { buttonVariants } from "@/components/ui/button";
+    import { Input } from "@/components/ui/input";
+    import { Label } from "@/components/ui/label";
 
     let {textButton, children, title} = $props()
 

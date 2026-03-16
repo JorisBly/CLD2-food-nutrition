@@ -1,12 +1,12 @@
 <script lang="ts">
-    import { Button } from "$lib/components/ui/button/index.js";
-    import {Card, CardHeader, CardTitle, CardDescription, CardContent} from "$lib/components/ui/card/index.js";
-    import { Input } from "$lib/components/ui/input/index.js";
+    import { Button } from "@/components/ui/button";
+    import {Card, CardHeader, CardTitle, CardDescription, CardContent} from "@/components/ui/card";
+    import { Input } from "@/components/ui/input";
     import {FormControl, FormLabel, Field} from "@/components/ui/form";
     import {
         FieldGroup,
-    } from "$lib/components/ui/field/index.js";
-    import {loginSchema, type FormSchema} from "../../routes/login/schema";
+    } from "@/components/ui/field";
+    import {loginSchema, type FormSchema} from "../../../routes/login/schema.ts";
     import {superForm, type SuperValidated, type Infer,} from "sveltekit-superforms";
     import {zod4Client} from "sveltekit-superforms/adapters";
 

@@ -2,9 +2,9 @@
 	import './layout.css';
 	import favicon from '$lib/assets/favicon.svg';
     import {SidebarInset, SidebarProvider} from "@/components/ui/sidebar";
-    import AppSidebar from "$lib/components/app-sidebar.svelte";
-    import SiteHeader from "$lib/components/site-header.svelte";
-    import ChartAreaInteractive from "$lib/components/chart-area-interactive.svelte";
+    import AppSidebar from "@/components/sidebar/app-sidebar.svelte";
+    import SiteHeader from "@/components/form/site-header.svelte";
+    import ChartAreaInteractive from "@/components/chart/chart-area-interactive.svelte";
 
 	let { children } = $props();
 </script>

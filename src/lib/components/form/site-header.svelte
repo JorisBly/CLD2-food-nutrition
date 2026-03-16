@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { Separator } from "$lib/components/ui/separator/index.js";
-    import {SidebarTrigger} from "$lib/components/ui/sidebar/index.js";
+    import { Separator } from "@/components/ui/separator";
+    import {SidebarTrigger} from "@/components/ui/sidebar";
     import { page } from '$app/state';
 
 </script>

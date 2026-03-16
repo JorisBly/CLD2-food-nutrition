@@ -1,5 +1,5 @@
 <script lang="ts">
-    import ChartAreaInteractive from "$lib/components/chart-area-interactive.svelte";
+    import ChartAreaInteractive from "@/components/chart/chart-area-interactive.svelte";
 
     let {data} = $props()
 
