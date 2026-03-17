@@ -1,6 +1,6 @@
 <script lang="ts">
     import LoginForm from "@/components/form/login-form.svelte";
-    import type { PageData } from "./$types.js";
+    import type { PageData } from "../../../../.svelte-kit/types/src/routes";
     let { data }: { data: PageData } = $props();
 </script>
 

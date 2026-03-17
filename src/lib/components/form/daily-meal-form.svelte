@@ -6,15 +6,17 @@
     import {
         FieldGroup,
     } from "@/components/ui/field";
-    import {weightSchema, type FormSchema} from "../../../routes/weight/schema.ts";
+
+    import FormSelect from "./form-select.svelte";
     import {superForm, type SuperValidated, type Infer,} from "sveltekit-superforms";
     import {zod4Client} from "sveltekit-superforms/adapters";
+    import {dailyMealSchema, type FormSchema} from "../../../routes/meal/diary/schema.ts";
 
     let { data }: { data: { form: SuperValidated<Infer<FormSchema>> , userId: string} } =
         $props();
 
     const form = superForm(data.form, {
-        validators: zod4Client(weightSchema),
+        validators: zod4Client(dailyMealSchema),
     });
 
     const { form: formData, enhance } = form;
@@ -29,38 +31,43 @@
 
 <Card class="mx-auto w-full max-w-sm border-0">
     <CardHeader>
-        <CardDescription>Enter your weight</CardDescription>
+        <CardDescription>Enter your meal</CardDescription>
     </CardHeader>
     <CardContent>
-        <form method="POST" action="/weight?/newEntry"  use:enhance>
+        <form method="POST" action="/meal?/newEntry"  use:enhance>
             <FieldGroup>
                 <Field class="hidden" {form} name="userId">
                     <FormControl>
                         {#snippet children({ props })}
                             <Input type="hidden" {...props} bind:value={$formData.userId} />
-
                         {/snippet}
                     </FormControl>
                 </Field>
-                <Field {form} name="weight">
+
+                <Field  {form} name="mealType">
+                    <FormControl>
+                        {#snippet children({ props })}
+                            <FormLabel>Meal type</FormLabel>
+                            <FormSelect bind:value={$formData.mealType}
+                                        choices={[
+                                           { value: 'breakfast', label: 'Breakfast'},
+                                           {value: 'lunch', label: 'Lunch'},
+                                           { value:'dinner', label: 'Dinner'},
+                                           {value: 'snack', label: 'Snack'},]}/>
+                        {/snippet}
+                    </FormControl>
+                </Field>
+                <Field class="hidden" {form} name="foodId">
                     <FormControl>
                         {#snippet children({ props })}
 
-                            <FormLabel>Weight</FormLabel>
-                            <Input type="number" step="0.01" {...props} bind:value={$formData.weight} />
+                            <FormLabel>Food</FormLabel>
+                            <Input type="number" step="0.01" {...props} bind:value={$formData.foodId} />
 
                         {/snippet}
                     </FormControl>
                 </Field>
 
-                <Field {form} name="date">
-                    <FormControl>
-                        {#snippet children({ props })}
-                            <FormLabel>Date</FormLabel>
-                            <Input type="date" {...props} bind:value={$formData.date} />
-                        {/snippet}
-                    </FormControl>
-                </Field>
                 <Button type="submit" class="w-full">Create</Button>
             </FieldGroup>
         </form>

@@ -1,8 +1,8 @@
-import {getUserWeights} from "@/server/api";
+import {getUserWeights} from "@/server/api.ts";
 import {type Actions, fail, redirect} from "@sveltejs/kit";
 import {superValidate} from "sveltekit-superforms";
 import {zod4} from "sveltekit-superforms/adapters";
-import {weightSchema} from "./schema";
+import {weightSchema} from "./schema.ts";
 import {registerSchema} from "../register/schema.ts";
 import {db} from "@/server/db";
 import {weightEntries} from "@/server/db/schema/weight_entries.ts";

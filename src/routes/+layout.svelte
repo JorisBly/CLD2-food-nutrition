@@ -1,6 +1,6 @@
 <script lang="ts">
 	import './layout.css';
-	import favicon from '$lib/assets/favicon.svg';
+	import favicon from '@/assets/favicon.svg';
     import {SidebarInset, SidebarProvider} from "@/components/ui/sidebar";
     import AppSidebar from "@/components/sidebar/app-sidebar.svelte";
     import SiteHeader from "@/components/form/site-header.svelte";
@@ -11,7 +11,6 @@
 
 <svelte:head>
 </svelte:head>
-
 <SidebarProvider
         style="--sidebar-width: calc(var(--spacing) * 72); --header-height: calc(var(--spacing) * 12);"
 >

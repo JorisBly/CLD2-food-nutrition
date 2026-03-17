@@ -1,10 +1,14 @@
-import {getUserMeals, getUserWeights} from "@/server/api";
+import {
+    getDailyMeals,
+    getDiaryDay,
+    getMealByDiaryDayAndMealType,
+    mealEntryInsertTransaction
+} from "@/server/api.ts";
 import {type Actions, fail, redirect} from "@sveltejs/kit";
 import {superValidate} from "sveltekit-superforms";
 import {zod4} from "sveltekit-superforms/adapters";
-import {mealSchema} from "./schema.ts";
-import {db} from "@/server/db";
-import {mealEntries} from "@/server/db/schema/meal_entries.ts";
+import {dailyMealSchema} from "./schema.ts";
+import {getCurrentDateInDbFormat, parseDate} from "@/date.ts";
 
 
 export async function load({ parent }) {
@@ -12,26 +16,53 @@ export async function load({ parent }) {
     if (!user) {
         throw new Error("User does not exist");
     }
-    const meals = await getUserMeals(user.id);
+    const meals = await getDailyMeals(user.id, getCurrentDateInDbFormat());
     return {
         userId: user.id,
         meals,
-        form: await superValidate(zod4(mealSchema)),
+        form: await superValidate(zod4(dailyMealSchema)),
     };
 }
 
 export const actions : Actions = {
-    newEntry: async ({ request, locals }) => {
-        const form = await superValidate(request, zod4(mealSchema));
+    newEntry: async ({ request }) => {
+        const form = await superValidate(request, zod4(dailyMealSchema));
         if (!form.valid) {
             return fail(400, {
                 form,
             });
         }
+        debugger
         if (form.data.userId){
-            await db.insert(mealEntries).values({
-                userId: form.data.userId,
-                date:form.data.date})
+            const [diaryDay] = await getDiaryDay(form.data.userId,getCurrentDateInDbFormat())
+
+            if (diaryDay){
+                const [meal] = await getMealByDiaryDayAndMealType(diaryDay.id, form.data.mealType)
+                if (meal){
+                    await mealEntryInsertTransaction(
+                        form.data.userId,
+                        diaryDay.date,
+                        form.data.mealType,
+                        diaryDay.id,
+                        meal.id
+                        )
+
+                }else{
+                    await mealEntryInsertTransaction(
+                        form.data.userId,
+                        diaryDay.date,
+                        form.data.mealType,
+                        diaryDay.id,
+                    )
+                }
+            }else{
+                await mealEntryInsertTransaction(
+                    form.data.userId,
+                    form.data.date,
+                    form.data.mealType,
+                )
+            }
+
         }else{
             throw new Error("User not found")
         }

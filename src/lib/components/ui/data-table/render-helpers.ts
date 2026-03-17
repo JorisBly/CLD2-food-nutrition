@@ -11,7 +11,7 @@ import type { Component, ComponentProps, Snippet } from "svelte";
  * ```svelte
  * {@const result = content(context as any)}
  * {#if result instanceof RenderComponentConfig}
- *   {@const { component: Component, props } = result}
+ *   {@const { Page: Component, props } = result}
  *   <Component {...props} />
  * {/if}
  * ```
@@ -57,9 +57,9 @@ export class RenderSnippetConfig<TProps> {
  *
  * This is only to be used with Svelte Components - use `renderSnippet` for Svelte Snippets.
  *
- * @param component A Svelte component
- * @param props The props to pass to `component`
- * @returns A `RenderComponentConfig` object that helps svelte-table know how to render the header/cell component.
+ * @param component A Svelte Page
+ * @param props The props to pass to `Page`
+ * @returns A `RenderComponentConfig` object that helps svelte-table know how to render the header/cell Page.
  * @example
  * ```ts
  * // +page.svelte
