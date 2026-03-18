@@ -31,7 +31,7 @@
         <Command.Empty>
             Aucun résultat.<br>
             Crée un nouvel aliment
-            <FoodDialog foodForm={foodForm}  />
+            <FoodDialog {foodForm}  />
         </Command.Empty>
 
 

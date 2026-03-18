@@ -12,7 +12,7 @@
     import {superForm, type SuperValidated, type Infer,} from "sveltekit-superforms";
     import {zod4Client} from "sveltekit-superforms/adapters";
     import {dailyMealSchema, type FormSchema} from "../../../routes/meal/diary/schema.ts";
-    import {foodSchema, type FormSchema as FoodFormSchema} from "../../../routes/meal/food-items/schema.ts";
+    import {type FormSchema as FoodFormSchema} from "../../../routes/meal/food-items/schema.ts";
     import type {FoodItem} from "@/types.ts";
 
     let { data }: { data: { form: SuperValidated<Infer<FormSchema>> , userId: string, foods: FoodItem[], foodForm:  SuperValidated<Infer<FoodFormSchema>>} } =
@@ -69,7 +69,7 @@
                         {#snippet children({ props })}
 
                             <FormLabel>Food</FormLabel>
-                           <SearchInputResults {data.foodForm} {...props} bind:selectedItems={$formData.foodItems} foods={data.foods}/>
+                           <SearchInputResults foodForm={data.foodForm} {...props} bind:selectedItems={$formData.foodItems} foods={data.foods}/>
                         {/snippet}
                     </FormControl>
                 </Field>

@@ -24,8 +24,8 @@ export async function load({ parent }) {
         userId: user.id,
         dailyDiaries,
         foods,
-        form: await superValidate(zod4(dailyMealSchema)),
         foodForm: await superValidate(zod4(foodSchema)),
+        form: await superValidate(zod4(dailyMealSchema)),
     };
 }
 

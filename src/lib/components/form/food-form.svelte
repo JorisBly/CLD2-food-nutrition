@@ -11,25 +11,24 @@
     import {zod4Client} from "sveltekit-superforms/adapters";
     import {foodSchema, type FormSchema} from "../../../routes/meal/food-items/schema.ts";
 
-    let { data }: { data: { form: SuperValidated<Infer<FormSchema>>} } =
-        $props();
+    let  { foodForm }  = $props();
 
-    const form = superForm(data.form, {
+    const form = superForm(foodForm, {
         validators: zod4Client(foodSchema),
+        onUpdate({ form }) {
+            if (!form.valid) {
+                console.log("Erreurs de validation :", form.errors);
+            }
+        }
     });
 
     const { form: formData, enhance } = form;
 
-
-
 </script>
 
 <Card class="mx-auto w-full max-w-sm border-0">
-    <CardHeader>
-        <CardDescription>Create food item</CardDescription>
-    </CardHeader>
     <CardContent>
-        <form method="POST" action="/meal/food-items?/newEntry"  use:enhance>
+        <form method="POST" enctype="multipart/form-data" action="/meal/food-items?/newEntry"  use:enhance>
             <FieldGroup>
 
                 <Field {form} name="name">
@@ -37,7 +36,7 @@
                         {#snippet children({ props })}
 
                             <FormLabel>Name</FormLabel>
-                            <Input type="text" step="0.01" {...props} bind:value={$formData.name} />
+                            <Input type="text" step="0.1" {...props} bind:value={$formData.name} />
 
                         {/snippet}
                     </FormControl>
@@ -48,7 +47,7 @@
                         {#snippet children({ props })}
 
                             <FormLabel>Proteins</FormLabel>
-                            <Input type="number" step="0.01" {...props} bind:value={$formData.proteins} />
+                            <Input type="number" step="0.1" {...props} bind:value={$formData.proteins} />
 
                         {/snippet}
                     </FormControl>
@@ -59,7 +58,7 @@
                         {#snippet children({ props })}
 
                             <FormLabel>Carbs</FormLabel>
-                            <Input type="number" step="0.01" {...props} bind:value={$formData.carbs} />
+                            <Input type="number" step="0.1" {...props} bind:value={$formData.carbs} />
 
                         {/snippet}
                     </FormControl>
@@ -70,7 +69,18 @@
                         {#snippet children({ props })}
 
                             <FormLabel>Fats</FormLabel>
-                            <Input type="number" step="0.01" {...props} bind:value={$formData.fats} />
+                            <Input type="number" step="0.1" {...props} bind:value={$formData.fats} />
+
+                        {/snippet}
+                    </FormControl>
+                </Field>
+
+                <Field {form} name="img">
+                    <FormControl>
+                        {#snippet children({ props })}
+
+                            <FormLabel>Image</FormLabel>
+                            <Input type="file" {...props} bind:value={$formData.img} />
 
                         {/snippet}
                     </FormControl>

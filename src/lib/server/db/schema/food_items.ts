@@ -8,5 +8,6 @@ export const foodItems = pgTable('food_items', {
     proteins: decimal({precision: 10, scale: 2}),
     carbs: decimal({precision: 10, scale: 2}),
     fats: decimal({precision: 10, scale: 2}),
+    img: varchar({length: 30}).notNull(),
     ...dates
 })

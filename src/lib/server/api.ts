@@ -151,4 +151,8 @@ await db.transaction(async (tx) => {
 
 }
 
-
+export async function createFoodItem(values){
+    await db
+        .insert(foodItems)
+        .values(values)
+}

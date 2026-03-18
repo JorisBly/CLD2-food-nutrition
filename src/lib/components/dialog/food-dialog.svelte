@@ -26,7 +26,7 @@
                 </Dialog.Description>
             </Dialog.Header>
 
-            <FoodForm data={foodForm} />
+            <FoodForm {foodForm} />
         </Dialog.Content>
     </form>
 </Dialog.Root>
