@@ -1,4 +1,5 @@
 import {
+    getAllFoods,
     getDailyMeals,
     getDiaryDay,
     getMealByDiaryDayAndMealType,
@@ -9,6 +10,7 @@ import {superValidate} from "sveltekit-superforms";
 import {zod4} from "sveltekit-superforms/adapters";
 import {dailyMealSchema} from "./schema.ts";
 import {getCurrentDateInDbFormat, parseDate} from "@/date.ts";
+import {foodSchema} from "../food-items/schema.ts";
 
 
 export async function load({ parent }) {
@@ -16,11 +18,14 @@ export async function load({ parent }) {
     if (!user) {
         throw new Error("User does not exist");
     }
-    const meals = await getDailyMeals(user.id, getCurrentDateInDbFormat());
+    const dailyDiaries = await getDailyMeals(user.id, getCurrentDateInDbFormat());
+    const foods = await getAllFoods()
     return {
         userId: user.id,
-        meals,
+        dailyDiaries,
+        foods,
         form: await superValidate(zod4(dailyMealSchema)),
+        foodForm: await superValidate(zod4(foodSchema)),
     };
 }
 
@@ -32,41 +37,53 @@ export const actions : Actions = {
                 form,
             });
         }
-        debugger
-        if (form.data.userId){
-            const [diaryDay] = await getDiaryDay(form.data.userId,getCurrentDateInDbFormat())
 
-            if (diaryDay){
-                const [meal] = await getMealByDiaryDayAndMealType(diaryDay.id, form.data.mealType)
-                if (meal){
-                    await mealEntryInsertTransaction(
-                        form.data.userId,
-                        diaryDay.date,
-                        form.data.mealType,
-                        diaryDay.id,
-                        meal.id
+        try {
+            if (form.data.userId) {
+                const [diaryDay] = await getDiaryDay(form.data.userId, getCurrentDateInDbFormat())
+
+                if (diaryDay) {
+                    const [meal] = await getMealByDiaryDayAndMealType(diaryDay.id, form.data.mealType)
+                    if (meal) {
+                        await mealEntryInsertTransaction(
+                            form.data.userId,
+                            diaryDay.date,
+                            form.data.mealType,
+                            diaryDay.id,
+                            meal.id,
+                            form.data.foodItems
                         )
 
-                }else{
+                    } else {
+                        await mealEntryInsertTransaction(
+                            form.data.userId,
+                            diaryDay.date,
+                            form.data.mealType,
+                            diaryDay.id,
+                            undefined,
+                            form.data.foodItems
+                        )
+                    }
+                } else {
                     await mealEntryInsertTransaction(
                         form.data.userId,
-                        diaryDay.date,
+                        getCurrentDateInDbFormat(),
                         form.data.mealType,
-                        diaryDay.id,
+                        undefined,
+                        undefined,
+                        form.data.foodItems
                     )
                 }
-            }else{
-                await mealEntryInsertTransaction(
-                    form.data.userId,
-                    form.data.date,
-                    form.data.mealType,
-                )
+
+            } else {
+                throw new Error("User not found")
             }
+        }catch (err: any) {
+            console.error("❌ ERREUR TRANSACTION :", err.message)
+            console.error("Détails PostgreSQL :", err.detail)
+            throw err
 
-        }else{
-            throw new Error("User not found")
         }
-
 
     }
 }

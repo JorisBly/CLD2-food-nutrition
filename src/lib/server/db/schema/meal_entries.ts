@@ -10,9 +10,5 @@ export const mealEntries = pgTable('meal_entries', {
     foodItemId: uuid('food_item_id').references(() => foodItems.id).notNull(),
     userId: uuid('user_id').references(() => users.id).notNull(),
     quantity: real().notNull(),
-    caloriesTotal: decimal('calories_total', {precision: 10, scale: 2}).notNull(),
-    ProteinsTotal: decimal('proteins_total', {precision: 10, scale: 2}).notNull(),
-    CarbsTotal: decimal('carbs_total', {precision: 10, scale: 2}).notNull(),
-    FatsTotal: decimal('fats_total', {precision: 10, scale: 2}).notNull(),
     ...dates,
 })

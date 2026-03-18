@@ -5,6 +5,6 @@ import {dates, id} from "@/server/db/schema/columns.helper";
 export const diaryDays = pgTable('diary_days', {
     ...id,
     userId: uuid('user_id').references(() =>users.id),
-    date: date(),
+    date: date().notNull(),
     ...dates,
 })

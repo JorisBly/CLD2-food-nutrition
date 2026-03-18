@@ -1,9 +1,7 @@
 <script lang="ts">
     import * as Select from "$lib/components/ui/select/index.js";
 
-    const {choices} = $props()
-
-    let value = $state("");
+    let {choices = [], value = $bindable("")} = $props()
 
     const triggerContent = $derived(
         choices.find((c) => c.value === value)?.label ?? "Select a your choice"

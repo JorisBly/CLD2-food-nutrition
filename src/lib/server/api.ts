@@ -1,9 +1,9 @@
 import {db} from "@/server/db";
 import {weightEntries} from "@/server/db/schema/weight_entries.ts";
-import {eq, sql} from "drizzle-orm";
+import {and, eq, sql} from "drizzle-orm";
 import {mealEntries} from "@/server/db/schema/meal_entries.ts";
-import type {DiaryDay, Meal, User} from "@/types.ts";
-import {diaryDays, meals, users} from "@/server/db/schema";
+import type {DiaryDay, FoodItem, Meal, User} from "@/types.ts";
+import {diaryDays, foodItems, meals, users} from "@/server/db/schema";
 
 export async function getUserByEmail(email: string): Promise<User[]> {
     return db.select()
@@ -23,12 +23,55 @@ export async function getUserMeals(userId:string){
     .where(sql`${mealEntries.userId} = ${userId}` )
 }
 
-export async function getDailyMeals(userId:string, date:string){
-    return db.select()
+export async function getDailyMeals(userId: string, date: string) {
+    const rows = await db.select({
+        day: diaryDays,
+        meal: meals,
+        entry: mealEntries,
+        food: foodItems,
+    })
         .from(diaryDays)
         .leftJoin(meals, eq(diaryDays.id, meals.diaryDay))
-        .rightJoin(mealEntries, eq(meals.id, mealEntries.mealId))
-        .where(sql`${diaryDays.userId} = ${userId} AND ${diaryDays.date} = ${date}`);
+        .leftJoin(mealEntries, eq(meals.id, mealEntries.mealId))
+        .leftJoin(foodItems, eq(mealEntries.foodItemId, foodItems.id))
+        .where(and(eq(diaryDays.userId, userId), eq(diaryDays.date, date)));
+
+    if (rows.length === 0) return null;
+
+    const result = {
+        ...rows[0].day,
+        meals: [] as any[]
+    };
+
+    rows.forEach(row => {
+        if (row.meal) {
+            let meal = result.meals.find(m => m.id === row.meal!.id);
+
+            if (!meal) {
+                meal = { ...row.meal, entries: [] };
+                result.meals.push(meal);
+            }
+
+            if (row.entry) {
+                const entryExists = meal.entries.some((e: any) => e.id === row.entry!.id);
+
+                if (!entryExists) {
+                    meal.entries.push({
+                        ...row.entry,
+                        food: row.food
+                    });
+                }
+            }
+
+        }
+    });
+
+    return result;
+}
+
+export async function getAllFoods(){
+    return db.select()
+    .from(foodItems)
 }
 
 export async function  getDiaryDay(userId: string, date: string): Promise<DiaryDay[]> {
@@ -68,31 +111,42 @@ export async function insertDiaryDay(userId: string, date: string){
 }
 
 
-export async function mealEntryInsertTransaction(userId: string, date: string, mealType: string, diaryDayId: undefined | string = undefined, mealId: undefined | string = undefined){
+export async function mealEntryInsertTransaction(
+    userId: string,
+    date: string,
+    mealType: string,
+    diaryDayId: undefined | string = undefined,
+    mealId: undefined | string = undefined,
+    foodItems: Object[],
+){
 await db.transaction(async (tx) => {
-let diaryDay = []
-let meal = []
-    if (diaryDayId !== undefined){
-         [diaryDay] = tx.insert(diaryDays).values({
+
+    if (diaryDayId === undefined){
+        const [insertedDiaryDay] = await tx.insert(diaryDays).values({
             userId: userId,
             date: date
         }).returning({insertedId: diaryDays.id})
+        diaryDayId = insertedDiaryDay.insertedId
     }
 
-    if (mealId !== undefined){
-        [meal] = tx.insert(mealEntries).values({
-            userId: userId,
-            diaryDayId: diaryDay.id,
-            mealId: mealType,
+    if (mealId === undefined){
+        const [insertedMeal] = await tx.insert(meals).values({
+            diaryDay:  diaryDayId,
+            type: mealType,
         }).returning({insertedId: meals.id})
+        mealId = insertedMeal.insertedId
     }
 
+    for(const food of foodItems){
+        await tx.insert(mealEntries).values({
+            userId: userId,
+            date: date,
+            mealId: mealId,
+            foodItemId: food.id,
+            quantity: food.quantity
+        }).returning({insertedId: mealEntries.id})
+    }
 
-   const [mealEntry] = tx.insert(mealEntries).values({
-        userId: userId,
-        date: date,
-        mealId: meal.id,
-    }).returning({insertedId: mealEntries.id})
 })
 
 }

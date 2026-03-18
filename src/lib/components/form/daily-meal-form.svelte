@@ -6,17 +6,21 @@
     import {
         FieldGroup,
     } from "@/components/ui/field";
+    import SearchInputResults from "../input/search-input-results.svelte";
 
     import FormSelect from "./form-select.svelte";
     import {superForm, type SuperValidated, type Infer,} from "sveltekit-superforms";
     import {zod4Client} from "sveltekit-superforms/adapters";
     import {dailyMealSchema, type FormSchema} from "../../../routes/meal/diary/schema.ts";
+    import {foodSchema, type FormSchema as FoodFormSchema} from "../../../routes/meal/food-items/schema.ts";
+    import type {FoodItem} from "@/types.ts";
 
-    let { data }: { data: { form: SuperValidated<Infer<FormSchema>> , userId: string} } =
+    let { data }: { data: { form: SuperValidated<Infer<FormSchema>> , userId: string, foods: FoodItem[], foodForm:  SuperValidated<Infer<FoodFormSchema>>} } =
         $props();
 
     const form = superForm(data.form, {
         validators: zod4Client(dailyMealSchema),
+        dataType: 'json'
     });
 
     const { form: formData, enhance } = form;
@@ -27,14 +31,15 @@
         }
     });
 
+
 </script>
 
 <Card class="mx-auto w-full max-w-sm border-0">
     <CardHeader>
-        <CardDescription>Enter your meal</CardDescription>
+        <CardDescription>Entrez un repas</CardDescription>
     </CardHeader>
     <CardContent>
-        <form method="POST" action="/meal?/newEntry"  use:enhance>
+        <form method="POST" action="/meal/diary?/newEntry"  use:enhance>
             <FieldGroup>
                 <Field class="hidden" {form} name="userId">
                     <FormControl>
@@ -48,26 +53,26 @@
                     <FormControl>
                         {#snippet children({ props })}
                             <FormLabel>Meal type</FormLabel>
-                            <FormSelect bind:value={$formData.mealType}
+                            <FormSelect {...props} bind:value={$formData.mealType}
                                         choices={[
                                            { value: 'breakfast', label: 'Breakfast'},
-                                           {value: 'lunch', label: 'Lunch'},
+                                           { value: 'lunch', label: 'Lunch'},
                                            { value:'dinner', label: 'Dinner'},
-                                           {value: 'snack', label: 'Snack'},]}/>
+                                           { value: 'snack', label: 'Snack'},
+                                           ]}/>
                         {/snippet}
+
                     </FormControl>
                 </Field>
-                <Field class="hidden" {form} name="foodId">
+                <Field {form} name="foodItems">
                     <FormControl>
                         {#snippet children({ props })}
 
                             <FormLabel>Food</FormLabel>
-                            <Input type="number" step="0.01" {...props} bind:value={$formData.foodId} />
-
+                           <SearchInputResults {data.foodForm} {...props} bind:selectedItems={$formData.foodItems} foods={data.foods}/>
                         {/snippet}
                     </FormControl>
                 </Field>
-
                 <Button type="submit" class="w-full">Create</Button>
             </FieldGroup>
         </form>

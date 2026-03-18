@@ -7,6 +7,7 @@
 
     let {data} = $props();
 
+
 </script>
 
 <SideSheet title="Add an entry" textButton="New entry">
@@ -14,9 +15,9 @@
 </SideSheet>
 <Card title="Add an entry">
     <div class="flex flex-row">
-    <MealCollapsible mealType="breakfast" items={data.meals} />
-    <MealCollapsible mealType="lunch" items={data.meals}/>
-    <MealCollapsible mealType="dinner" items={data.meals}/>
-    <MealCollapsible mealType="snack" items={data.meals}/>
+    <MealCollapsible mealType="breakfast" items={data.dailyDiaries.meals} />
+    <MealCollapsible mealType="lunch" items={data.dailyDiaries.meals}/>
+    <MealCollapsible mealType="dinner" items={data.dailyDiaries.meals}/>
+    <MealCollapsible mealType="snack" items={data.dailyDiaries.meals}/>
     </div>
 </Card>

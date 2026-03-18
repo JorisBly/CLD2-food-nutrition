@@ -5,9 +5,9 @@
 
     let {items, mealType} = $props()
 
-    let filteredItems = $derived(
-        items.filter(({ item }) => item.type === mealType),
-    )
+    let filteredItems = $derived(items.filter((item) => {
+        return  item.type === mealType
+    }))
 
 </script>
 
@@ -21,17 +21,15 @@
             <span class="sr-only">Toggle</span>
         </Collapsible.Trigger>
     </div>
-    {#each items as item, i}
-    <div class="rounded-md border px-4 py-3 font-mono text-sm">
-        {item}
+    {#each filteredItems as meal}
+     {#each meal.entries as entry, i}
+
+    <Collapsible.Content class="space-y-2 px-3">
+        <div class="rounded-md border px-4 py-3 font-mono text-sm">
+        {entry.food.name} | {entry.quantity} gr
     </div>
-    <Collapsible.Content class="space-y-2">
-        <div class="rounded-md border px-4 py-3 font-mono text-sm">
-            @melt-ui/melt-ui
-        </div>
-        <div class="rounded-md border px-4 py-3 font-mono text-sm">
-            @sveltejs/svelte
-        </div>
     </Collapsible.Content>
+
+         {/each}
         {/each}
 </Collapsible.Root>
