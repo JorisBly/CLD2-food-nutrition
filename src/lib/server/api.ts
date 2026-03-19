@@ -3,7 +3,7 @@ import {weightEntries} from "@/server/db/schema/weight_entries.ts";
 import {and, eq, sql} from "drizzle-orm";
 import {mealEntries} from "@/server/db/schema/meal_entries.ts";
 import type {DiaryDay, FoodItem, Meal, User} from "@/types.ts";
-import {diaryDays, foodItems, meals, users} from "@/server/db/schema";
+import {diaryDays, foodItems, meals, nutritionGoals, users} from "@/server/db/schema";
 
 export async function getUserByEmail(email: string): Promise<User[]> {
     return db.select()
@@ -155,4 +155,27 @@ export async function createFoodItem(values){
     await db
         .insert(foodItems)
         .values(values)
+}
+
+export async function getUserGoalByDate(userId: string, date: string){
+    return db.select()
+    .from(nutritionGoals)
+        .where(sql`${nutritionGoals.startDate} <= ${date} AND ${nutritionGoals.userId} = ${userId}`)
+}
+
+export async function getOldUserGoals(userId: string, date: string){
+    return db.select()
+        .from(nutritionGoals)
+        .where(sql`${nutritionGoals.endDate} < ${date} AND ${nutritionGoals.userId} = ${userId}`)
+}
+
+export async function insertGoal(values: any){
+        await db.insert(nutritionGoals).values({
+            userId: values.userId,
+            startDate: values.startDate,
+            dailyCalories: values.dailyCalories,
+            targetCarbs: values.targetCarbs,
+            targetFats: values.targetFats,
+            targetProteins: values.targetProteins,
+        })
 }

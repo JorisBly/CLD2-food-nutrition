@@ -7,6 +7,7 @@
     import MealIcon from "@/icons/meal.svelte";
     import FoodItemIcon from "@/icons/food-item.svelte";
     import DiaryIcon from "@/icons/diary.svelte";
+    import {GoalIcon} from "@lucide/svelte";
 
     const data = {
         user: {
@@ -40,6 +41,11 @@
                         icon: FoodItemIcon,
                     },
                 ],
+            },
+            {
+                title: "Goal",
+                icon: GoalIcon,
+                url: "/goal",
             }
         ],
     };
@@ -51,7 +57,7 @@
             <Sidebar.MenuItem>
                 <Sidebar.MenuButton class="data-[slot=sidebar-menu-button]:!p-1.5">
                     {#snippet child({ props })}
-                        <a href="##" {...props}>
+                        <a href="/dashboard" {...props}>
                             <span class="text-base font-semibold">Nutritrack</span>
                         </a>
                     {/snippet}
