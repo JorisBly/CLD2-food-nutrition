@@ -4,7 +4,7 @@
     import {SidebarInset, SidebarProvider} from "@/components/ui/sidebar";
     import AppSidebar from "@/components/sidebar/app-sidebar.svelte";
     import SiteHeader from "@/components/form/site-header.svelte";
-    import ChartAreaInteractive from "@/components/chart/chart-area-interactive.svelte";
+    import ChartAreaInteractiveCurve from "@/components/chart/chart-area-interactive-curve.svelte";
     import {page} from "$app/state";
 
 	let { children } = $props();
