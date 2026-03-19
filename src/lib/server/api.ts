@@ -1,6 +1,6 @@
 import {db} from "@/server/db";
 import {weightEntries} from "@/server/db/schema/weight_entries.ts";
-import {and, eq, sql} from "drizzle-orm";
+import {and, desc, eq, sql} from "drizzle-orm";
 import {mealEntries} from "@/server/db/schema/meal_entries.ts";
 import type {DiaryDay, FoodItem, Meal, User} from "@/types.ts";
 import {diaryDays, foodItems, meals, nutritionGoals, users} from "@/server/db/schema";
@@ -17,10 +17,10 @@ export async function getUserWeights(userId:string){
         .where(sql`${weightEntries.userId} = ${userId}` )
 }
 
-export async function getUserMeals(userId:string){
+export async function getUserMealEntries(userId:string){
     return db.select()
     .from(mealEntries)
-    .where(sql`${mealEntries.userId} = ${userId}` )
+    .where(sql`${mealEntries.userId} = ${userId}`)
 }
 
 export async function getDailyMeals(userId: string, date: string) {
@@ -34,11 +34,12 @@ export async function getDailyMeals(userId: string, date: string) {
         .leftJoin(meals, eq(diaryDays.id, meals.diaryDay))
         .leftJoin(mealEntries, eq(meals.id, mealEntries.mealId))
         .leftJoin(foodItems, eq(mealEntries.foodItemId, foodItems.id))
-        .where(and(eq(diaryDays.userId, userId), eq(diaryDays.date, date)));
+        .where(and(eq(diaryDays.userId, userId), eq(diaryDays.date, date)))
+
 
     if (rows.length === 0) return null;
 
-    const result = {
+    const result =  {
         ...rows[0].day,
         meals: [] as any[]
     };
@@ -69,6 +70,64 @@ export async function getDailyMeals(userId: string, date: string) {
     return result;
 }
 
+export async function getAllDailySummary(userId: string) {
+    const rows = await db.select({
+        day: diaryDays,
+        meal: meals,
+        entry: mealEntries,
+        food: foodItems,
+    })
+        .from(diaryDays)
+        .leftJoin(meals, eq(diaryDays.id, meals.diaryDay))
+        .leftJoin(mealEntries, eq(meals.id, mealEntries.mealId))
+        .leftJoin(foodItems, eq(mealEntries.foodItemId, foodItems.id))
+        .where(eq(diaryDays.userId, userId))
+        .orderBy(desc(diaryDays.date))
+
+    const daysMap = new Map<string, any>();
+
+    rows.forEach(row => {
+        const dayId = row.day.id;
+
+        if (!daysMap.has(dayId)) {
+            daysMap.set(dayId, {
+                ...row.day,
+                meals: []
+            });
+        }
+
+        const currentDay = daysMap.get(dayId);
+
+        if (row.meal) {
+            let meal = currentDay.meals.find((m: any) => m.id === row.meal!.id);
+
+            if (!meal) {
+                meal = { ...row.meal, entries: [] };
+                currentDay.meals.push(meal);
+            }
+
+            if (row.entry) {
+                const entryExists = meal.entries.some((e: any) => e.id === row.entry!.id);
+                if (!entryExists) {
+                    meal.entries.push({
+                        ...row.entry,
+                        food: row.food
+                    });
+                }
+            }
+        }
+    });
+
+    return Array.from(daysMap.values());
+}
+
+export async function getUserMealsWithEntries(userId: string) {
+    return db.select()
+        .from(meals)
+        .leftJoin(mealEntries, eq(meals.id, mealEntries.mealId))
+
+}
+
 export async function getAllFoods(){
     return db.select()
     .from(foodItems)
@@ -84,7 +143,7 @@ export function getMealByDiaryDayAndMealType(diaryDayId: string, mealType: strin
     return db.select()
     .from(meals)
         .leftJoin(diaryDays, eq(meals.diaryDay, diaryDays.id))
-    .where(sql`${diaryDays.id} = ${diaryDayId} AND ${mealType} = ${mealType}`);
+    .where(sql`${meals.diaryDay} = ${diaryDayId} AND ${meals.type} = ${mealType}`);
 }
 
 export async function insertMealEntry(userId: string, date: string, mealId: string){
