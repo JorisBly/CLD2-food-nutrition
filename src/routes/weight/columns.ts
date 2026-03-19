@@ -6,7 +6,7 @@ import type {WeightEntry} from "@/types.ts";
 export const columns: ColumnDef<WeightEntry>[] = [
     {
         accessorKey: "weight",
-        header: "Weight (kg)",
+        header: "Poids (kg)",
     },
     {
         accessorKey: "date",
