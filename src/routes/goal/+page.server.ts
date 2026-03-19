@@ -4,7 +4,6 @@ import {zod4} from "sveltekit-superforms/adapters";
 import {getCurrentDateInDbFormat} from "@/date.ts";
 import {goalSchema} from "./schema.ts";
 import {type Actions, fail} from "@sveltejs/kit";
-import {getLocalTimeZone} from "@internationalized/date";
 
 
 export async function load({ parent }) {
