@@ -76,7 +76,7 @@
 
                         <span class="text-xs text-muted-foreground min-w-[60px] text-right">
                     {isSelected
-                        ? Math.round((food.calories * selectedEntry.quantity) /100)
+                        ? Math.round((food.calories * selectedEntry.quantity))
                         : food.calories} kcal
                 </span>
                     </div>

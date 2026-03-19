@@ -10,7 +10,8 @@
     import {zod4Client} from "sveltekit-superforms/adapters";
     import {goalSchema, type FormSchema} from "../../../routes/goal/schema.ts";
     import DatePicker from "$lib/components/input/date-picker.svelte";
-    let { data }: { data: { form: SuperValidated<Infer<FormSchema>>, userId: string } } =
+    import type {NutritionGoal} from "@/types.ts";
+    let { data }: { data: { form: SuperValidated<Infer<FormSchema>>, userId: string , currentGoal: any} } =
         $props();
 
     const form = superForm(data.form, {
@@ -22,6 +23,11 @@
     $effect(() => {
         if (data.userId) {
             $formData.userId = data.userId;
+            $formData.startDate = data.currentGoal.startDate ?? 0
+            $formData.dailyCalories = data.currentGoal.dailyCalories ?? 0
+            $formData.targetFats = data.currentGoal.targetFats ?? 0
+            $formData.targetCarbs = data.currentGoal.targetCarbs ?? 0
+            $formData.targetProteins = data.currentGoal.targetProteins ?? 0
         }
     });
 </script>

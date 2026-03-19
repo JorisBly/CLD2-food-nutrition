@@ -50,7 +50,7 @@ export const actions : Actions = {
                             diaryDay.date,
                             form.data.mealType,
                             diaryDay.id,
-                            meal.id,
+                            meal.meals.id,
                             form.data.foodItems
                         )
 
@@ -76,7 +76,7 @@ export const actions : Actions = {
                 }
 
             } else {
-                throw new Error("User not found")
+                throw new Error()
             }
         }catch (err: any) {
             console.error("❌ ERREUR TRANSACTION :", err.message)

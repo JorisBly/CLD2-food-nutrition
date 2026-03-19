@@ -44,13 +44,13 @@
             })
     );
 
+
 </script>
 <Card.Root class="@container/card">
     <Card.Header>
-        <Card.Title>Weights</Card.Title>
+        <Card.Title>Poids</Card.Title>
         <Card.Description>
-            <span class="hidden @[540px]/card:block"> Total for the last 3 months </span>
-            <span class="@[540px]/card:hidden">Last 3 months</span>
+            <span class="@[540px]/card:hidden">3 dernier mois</span>
         </Card.Description>
         <Card.Action>
             <ToggleGroup.Root
@@ -59,9 +59,9 @@
                     variant="outline"
                     class="hidden *:data-[slot=toggle-group-item]:!px-4 @[767px]/card:flex"
             >
-                <ToggleGroup.Item value="90d">Last 3 months</ToggleGroup.Item>
-                <ToggleGroup.Item value="30d">Last 30 days</ToggleGroup.Item>
-                <ToggleGroup.Item value="7d">Last 7 days</ToggleGroup.Item>
+                <ToggleGroup.Item value="90d">3 dernier mois</ToggleGroup.Item>
+                <ToggleGroup.Item value="30d">30 dernier jours</ToggleGroup.Item>
+                <ToggleGroup.Item value="7d">7 dernier jours</ToggleGroup.Item>
             </ToggleGroup.Root>
             <Select.Root type="single" bind:value={timeRange}>
                 <Select.Trigger
@@ -74,9 +74,9 @@
           </span>
                 </Select.Trigger>
                 <Select.Content class="rounded-xl">
-                    <Select.Item value="90d" class="rounded-lg">Last 3 months</Select.Item>
-                    <Select.Item value="30d" class="rounded-lg">Last 30 days</Select.Item>
-                    <Select.Item value="7d" class="rounded-lg">Last 7 days</Select.Item>
+                    <Select.Item value="90d" class="rounded-lg">3 dernier mois</Select.Item>
+                    <Select.Item value="30d" class="rounded-lg">30 dernier jours</Select.Item>
+                    <Select.Item value="7d" class="rounded-lg">7 dernier jours</Select.Item>
                 </Select.Content>
             </Select.Root>
         </Card.Action>
@@ -91,7 +91,7 @@
                     series={[
           {
             key: "weight",
-            label: "Weight",
+            label: chartConfig.weight.label,
             color: chartConfig.weight.color,
           },
         ]}
