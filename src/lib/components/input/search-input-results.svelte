@@ -91,7 +91,7 @@
                         <span class="text-xs text-muted-foreground min-w-[60px] text-right">
                     {isSelected
                         ? Math.round((food.calories * selectedEntry.quantity)/100)
-                        : food.calories} kcal
+                        : food.calories} kcal/100gr
                 </span>
                     </div>
                 </CommandItem>
