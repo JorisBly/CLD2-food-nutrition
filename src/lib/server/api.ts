@@ -1,6 +1,6 @@
 import {db} from "@/server/db";
 import {weightEntries} from "@/server/db/schema/weight_entries.ts";
-import {and, desc, eq, sql} from "drizzle-orm";
+import {and, asc, desc, eq, isNull, sql} from "drizzle-orm";
 import {mealEntries} from "@/server/db/schema/meal_entries.ts";
 import type {DiaryDay, FoodItem, Meal, User} from "@/types.ts";
 import {diaryDays, foodItems, meals, nutritionGoals, users} from "@/server/db/schema";
@@ -14,7 +14,8 @@ export async function getUserByEmail(email: string): Promise<User[]> {
 export async function getUserWeights(userId:string){
     return db.select()
         .from(weightEntries)
-        .where(sql`${weightEntries.userId} = ${userId}` )
+        .where(sql`${weightEntries.userId} = ${userId}`)
+        .orderBy(sql`${weightEntries.date} asc `)
 }
 
 export async function getUserMealEntries(userId:string){
@@ -82,7 +83,7 @@ export async function getAllDailySummary(userId: string) {
         .leftJoin(mealEntries, eq(meals.id, mealEntries.mealId))
         .leftJoin(foodItems, eq(mealEntries.foodItemId, foodItems.id))
         .where(eq(diaryDays.userId, userId))
-        .orderBy(desc(diaryDays.date))
+        .orderBy(asc(diaryDays.date))
 
     const daysMap = new Map<string, any>();
 
@@ -222,10 +223,11 @@ export async function getUserGoalByDate(userId: string, date: string){
         .where(sql`${nutritionGoals.startDate} <= ${date} AND ${nutritionGoals.userId} = ${userId}`)
 }
 
-export async function getOldUserGoals(userId: string, date: string){
+export async function getUserGoals(userId: string){
     return db.select()
         .from(nutritionGoals)
-        .where(sql`${nutritionGoals.endDate} < ${date} AND ${nutritionGoals.userId} = ${userId}`)
+        .where(sql`${nutritionGoals.userId} = ${userId}`)
+        .orderBy(sql`${nutritionGoals.startDate} asc`)
 }
 
 export async function insertGoal(values: any){
@@ -237,4 +239,14 @@ export async function insertGoal(values: any){
             targetFats: values.targetFats,
             targetProteins: values.targetProteins,
         })
+}
+
+export async function endCurrentGoal(userId: string){
+    await db.update(nutritionGoals)
+        .set({endDate:  sql`NOW()`})
+        .where(
+            and(isNull(nutritionGoals.endDate),
+            eq(nutritionGoals.userId, userId)
+        ))
+
 }

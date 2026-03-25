@@ -1,4 +1,11 @@
-import {createFoodItem, getOldUserGoals, getUserGoalByDate, getUserWeights, insertGoal} from "@/server/api.ts";
+import {
+    createFoodItem,
+    getUserGoals,
+    getUserGoalByDate,
+    getUserWeights,
+    insertGoal,
+    endCurrentGoal
+} from "@/server/api.ts";
 import {superValidate} from "sveltekit-superforms";
 import {zod4} from "sveltekit-superforms/adapters";
 import {getCurrentDateInDbFormat} from "@/date.ts";
@@ -12,7 +19,8 @@ export async function load({ parent }) {
         throw new Error("User does not exist");
     }
     const currentGoal = await getUserGoalByDate(user.id, getCurrentDateInDbFormat())
-    const oldGoals = await getOldUserGoals(user.id, getCurrentDateInDbFormat())
+    const oldGoals = await getUserGoals(user.id)
+
     return {
         userId: user.id,
         currentGoal,
@@ -30,7 +38,12 @@ export const actions : Actions = {
             });
         }
 
-        form.data.startDate = new Date(form.data.startDate)
-        await insertGoal(form.data)
+        const dataToInsert = {
+            ...form.data,
+            startDate: new Date(form.data.startDate)
+        };
+
+        await endCurrentGoal(form.data.userId)
+        await insertGoal(dataToInsert);
     }
 }

@@ -11,13 +11,13 @@
     const selectedLabel = $derived.by(() => {
         switch (timeRange) {
             case "90d":
-                return "Last 3 months";
+                return "90 denier jours";
             case "30d":
-                return "Last 30 days";
+                return "30 dernier jours";
             case "7d":
-                return "Last 7 days";
+                return "7 dernier jours";
             default:
-                return "Last 3 months";
+                return "90 dernier jours";
         }
     });
     const filteredData = $derived(
@@ -59,9 +59,9 @@
                     variant="outline"
                     class="hidden *:data-[slot=toggle-group-item]:!px-4 @[767px]/card:flex"
             >
-                <ToggleGroup.Item value="90d">3 dernier mois</ToggleGroup.Item>
+                <ToggleGroup.Item value="7d">7 derniers jours</ToggleGroup.Item>
                 <ToggleGroup.Item value="30d">30 dernier jours</ToggleGroup.Item>
-                <ToggleGroup.Item value="7d">7 dernier jours</ToggleGroup.Item>
+                <ToggleGroup.Item value="90d">90 derniers jours</ToggleGroup.Item>
             </ToggleGroup.Root>
             <Select.Root type="single" bind:value={timeRange}>
                 <Select.Trigger
@@ -74,9 +74,9 @@
           </span>
                 </Select.Trigger>
                 <Select.Content class="rounded-xl">
-                    <Select.Item value="90d" class="rounded-lg">3 dernier mois</Select.Item>
-                    <Select.Item value="30d" class="rounded-lg">30 dernier jours</Select.Item>
-                    <Select.Item value="7d" class="rounded-lg">7 dernier jours</Select.Item>
+                    <ToggleGroup.Item value="7d" class="rounded-lg">7 derniers jours</ToggleGroup.Item>
+                    <ToggleGroup.Item value="30d" class="rounded-lg">30 dernier jours</ToggleGroup.Item>
+                    <ToggleGroup.Item value="90d" class="rounded-lg">90 derniers jours</ToggleGroup.Item>
                 </Select.Content>
             </Select.Root>
         </Card.Action>

@@ -6,11 +6,23 @@ import type {NutritionGoal} from "@/types.ts";
 export const columns: ColumnDef<NutritionGoal>[] = [
     {
         accessorKey: "startDate",
-        header: "Start date",
+        header: "Commencement",
+        cell: ({ getValue }) => {
+            const value = getValue();
+            if (!value) return "-";
+
+            const date = new Date(value as string);
+
+            return date.toISOString().split('T')[0];
+        }
     },
     {
         accessorKey: "endDate",
-        header: "End date",
+        header: "Terminer le",
+        cell: ({ getValue }) => {
+            const value = getValue();
+            if (!value) return "En cours...";
+        }
     },
 
     {

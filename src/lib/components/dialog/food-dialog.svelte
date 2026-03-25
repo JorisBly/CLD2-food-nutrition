@@ -22,7 +22,7 @@
             <Dialog.Header>
                 <Dialog.Title>Crée un nouvel aliment</Dialog.Title>
                 <Dialog.Description>
-                    Les informations sont pour 1 gramme de l'éléments crée
+                    Les informations à rentrées sont pour 100 gramme de l'aliment crée
                 </Dialog.Description>
             </Dialog.Header>
 

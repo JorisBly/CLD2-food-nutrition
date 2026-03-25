@@ -13,15 +13,15 @@ export function calculateDailyTotals(days: any[]) {
 
         day.meals.forEach(meal => {
             meal.entries.forEach(entry => {
-                const food = entry.food;
+                const food = entry.food
 
-                const ratio = entry.quantity;
+                const ratio = (entry.quantity || 0) / 100
 
                 if (food) {
-                    totals.calories += (food.calories || 0) * ratio;
-                    totals.proteins += (food.proteins || 0) * ratio;
-                    totals.carbs += (food.carbs || 0) * ratio;
-                    totals.fats += (food.fats || 0) * ratio;
+                    totals.calories += (food.calories || 0) * ratio
+                    totals.proteins += (food.proteins || 0) * ratio
+                    totals.carbs += (food.carbs || 0) * ratio
+                    totals.fats += (food.fats || 0) * ratio
                 }
             });
         });

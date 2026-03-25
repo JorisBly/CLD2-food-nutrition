@@ -9,7 +9,7 @@
 
 	let { children } = $props();
 
-    const authRoutes = ['/login', '/register'];
+    const authRoutes = ['/login', '/register', '/error'];
 
     let isAuthPage = $derived(authRoutes.includes(page.url.pathname));
 

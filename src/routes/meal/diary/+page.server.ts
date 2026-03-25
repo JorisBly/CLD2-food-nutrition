@@ -9,7 +9,7 @@ import {type Actions, fail, redirect} from "@sveltejs/kit";
 import {superValidate} from "sveltekit-superforms";
 import {zod4} from "sveltekit-superforms/adapters";
 import {dailyMealSchema} from "./schema.ts";
-import {getCurrentDateInDbFormat, parseDateForDb} from "@/date.ts";
+import {getCurrentDateInDbFormat} from "@/date.ts";
 import {foodSchema} from "../food-items/schema.ts";
 
 

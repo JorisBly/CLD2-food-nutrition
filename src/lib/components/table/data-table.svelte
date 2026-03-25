@@ -5,6 +5,7 @@
         FlexRender,
     } from "@/components/ui/data-table";
     import * as Table from "@/components/ui/table";
+    import {getFoodImage} from "@/foodImage.ts";
 
     type DataTableProps<TData, TValue> = {
         columns: ColumnDef<TData, TValue>[];
@@ -45,10 +46,19 @@
                 <Table.Row data-state={row.getIsSelected() && "selected"}>
                     {#each row.getVisibleCells() as cell (cell.id)}
                         <Table.Cell>
+                            {#if cell.column.id === 'img'}
+                                <img
+                                        src={getFoodImage(cell.getValue())}
+                                        alt={cell.getValue()}
+                                        class="h-8 w-8 rounded-full object-cover"
+                                        loading="lazy"
+                                />
+                                {:else}
                             <FlexRender
                                     content={cell.column.columnDef.cell}
                                     context={cell.getContext()}
                             />
+                                {/if}
                         </Table.Cell>
                     {/each}
                 </Table.Row>

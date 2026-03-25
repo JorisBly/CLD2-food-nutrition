@@ -1,9 +1,10 @@
 <script lang="ts">
     import * as Command from "$lib/components/ui/command/index.js";
-    import {Check} from "@lucide/svelte";
+    import {Check, Image} from "@lucide/svelte";
     import { cn } from "$lib/utils.js";
     import {Input} from "@/components/ui/input";
     import FoodDialog from "../dialog/food-dialog.svelte";
+    import {getFoodImage} from "@/foodImage.ts";
 
 
 
@@ -39,17 +40,23 @@
             {#each foods as food}
                 {@const selectedEntry = selectedItems.find(i => i.id === food.id)}
                 {@const isSelected = !!selectedEntry}
-
                 <Command.Item
                         value={food.name}
                         onSelect={() => toggleFood(food)}
                         class="flex items-center justify-between gap-4"
                 >
                     <div class="flex items-center gap-2 flex-1">
+                        <img
+                                src={getFoodImage(food.img)}
+                                alt={food.name}
+                                class="h-8 w-8 rounded-full object-cover"
+                                loading="lazy"
+                        />
                         <div class={cn(
                     "flex h-4 w-4 shrink-0 items-center justify-center rounded-sm border border-primary",
                     isSelected ? "bg-primary text-primary-foreground" : "opacity-50"
                 )}>
+
                             {#if isSelected}
                                 <Check class="h-3 w-3" />
                             {/if}
@@ -76,7 +83,7 @@
 
                         <span class="text-xs text-muted-foreground min-w-[60px] text-right">
                     {isSelected
-                        ? Math.round((food.calories * selectedEntry.quantity))
+                        ? Math.round((food.calories * selectedEntry.quantity)/100)
                         : food.calories} kcal
                 </span>
                     </div>

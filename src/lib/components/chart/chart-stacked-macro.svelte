@@ -3,10 +3,11 @@
     import * as Card from "@/components/ui/card";
     import * as Select from "@/components/ui/select";
     import * as ToggleGroup from "@/components/ui/toggle-group";
-    import {scaleBand, scaleUtc} from "d3-scale";
-    import {Area, AreaChart, BarChart} from "layerchart";
-    import { curveNatural } from "d3-shape";
-    const {chartData, chartConfig} = $props()
+    import {scaleBand} from "d3-scale";
+    import { BarChart} from "layerchart";
+
+
+    const {chartData, chartConfig, nutritionGoals = []} = $props()
     let timeRange = $state("90d");
     const selectedLabel = $derived.by(() => {
         switch (timeRange) {
@@ -45,6 +46,21 @@
     );
 
 
+    const dataWithGoals = $derived(
+        filteredData.map((item) => {
+            const activeGoal = nutritionGoals.find((goal) => {
+                const itemDate = new Date(item.date);
+                const start = new Date(goal.startDate);
+                const end = goal.endDate ? new Date(goal.endDate) : new Date("2099-01-01");
+                return itemDate >= start && itemDate <= end;
+            });
+
+            return {
+                ...item,
+                goalValue: activeGoal ? activeGoal.calories : 2000
+            };
+        })
+    );
 </script>
 <Card.Root class="@container/card">
     <Card.Header>
@@ -122,10 +138,9 @@
             label: "Graisses",
             color: chartConfig.fats.color,
           },
-        ]}
-
-            >
+        ]}>
             </BarChart>
+
         </Chart.Container>
     </Card.Content>
 </Card.Root>
