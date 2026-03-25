@@ -1,5 +1,12 @@
 <script lang="ts">
-    import * as Command from "$lib/components/ui/command";
+    import {
+        Command,
+        CommandInput,
+        CommandList,
+        CommandGroup,
+        CommandEmpty,
+        CommandItem,
+    } from "$lib/components/ui/command";
     import {Check, Image} from "@lucide/svelte";
     import { cn } from "$lib/utils.js";
     import {Input} from "@/components/ui/input";
@@ -26,21 +33,21 @@
     }
 </script>
 
-<Command.Root class="rounded-lg border shadow-md p-2">
-    <Command.Input placeholder="Rechercher un aliment..." />
-    <Command.List>
-        <Command.Empty>
+<Command class="rounded-lg border shadow-md p-2">
+    <CommandInput placeholder="Rechercher un aliment..." />
+    <CommandList>
+        <CommandEmpty>
             Aucun résultat.<br>
             Crée un nouvel aliment
             <FoodDialog {foodForm}  />
-        </Command.Empty>
+        </CommandEmpty>
 
 
-        <Command.Group heading="Aliments disponibles">
+        <CommandGroup heading="Aliments disponibles">
             {#each foods as food}
                 {@const selectedEntry = selectedItems.find(i => i.id === food.id)}
                 {@const isSelected = !!selectedEntry}
-                <Command.Item
+                <CommandItem
                         value={food.name}
                         onSelect={() => toggleFood(food)}
                         class="flex items-center justify-between gap-4"
@@ -87,12 +94,12 @@
                         : food.calories} kcal
                 </span>
                     </div>
-                </Command.Item>
+                </CommandItem>
             {/each}
-        </Command.Group>
-    </Command.List>
+        </CommandGroup>
+    </CommandList>
 
     <div class="border-t p-2 text-xs text-muted-foreground">
         {selectedItems.length} aliment(s) sélectionné(s)
     </div>
-</Command.Root>
+</Command>
