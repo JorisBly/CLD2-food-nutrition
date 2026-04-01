@@ -22,7 +22,7 @@ export function calculateDailyTotals(days: any[]) {
                 const c = (Number(food.carbs) || 0) * ratio;
                 const f = (Number(food.fats) || 0) * ratio;
 
-                const itemCalories = (p * 4) + (c * 4) + (f * 9);
+                const itemCalories = (p * 4) + (c * 4) + (f * 9)
 
                 totals.proteins += p;
                 totals.carbs += c;

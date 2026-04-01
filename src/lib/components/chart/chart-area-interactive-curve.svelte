@@ -97,23 +97,26 @@
         ]}
                     seriesLayout="stack"
                     props={{
-          area: {
-            curve: curveNatural,
-            "fill-opacity": 0.4,
-            line: { class: "stroke-1" },
-            motion: "tween",
-          },
-          xAxis: {
-            ticks: timeRange === "7d" ? 7 : undefined,
-            format: (v) => {
-              return v.toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-              });
-            },
-          },
-          yAxis: { format: () => "" },
-        }}
+  area: {
+    curve: curveNatural,
+    "fill-opacity": 0.4,
+    line: { class: "stroke-1" },
+    motion: "tween",
+  },
+  xAxis: {
+    ticks: timeRange === "7d" ? 7 : 5,
+    format: (v) => {
+      return v.toLocaleDateString("fr-FR", {
+        month: "short",
+        day: "numeric",
+      });
+    },
+  },
+  yAxis: {
+    format: (v) => `${v}kg`,
+    ticks: 3
+  },
+}}
             >
                 {#snippet marks({ series, getAreaProps })}
                     <defs>

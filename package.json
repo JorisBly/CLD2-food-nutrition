@@ -14,9 +14,11 @@
 		"db:generate": "pnpm db:drizzle generate",
 		"db:migrate": "pnpm db:drizzle migrate",
 		"db:studio": "pnpm db:drizzle studio",
-		"db:push": "pnpm db:drizzle push"
+		"db:push": "pnpm db:drizzle push",
+		"db:seed": "tsx src/lib/server/db/seed.ts"
 	},
 	"devDependencies": {
+		"@faker-js/faker": "^10.4.0",
 		"@iconify/svelte": "^5.2.1",
 		"@internationalized/date": "^3.11.0",
 		"@lucide/svelte": "^0.561.0",
@@ -54,6 +56,7 @@
 		"cloudinary": "^2.9.0",
 		"dotenv": "^17.3.1",
 		"drizzle-orm": "^0.45.1",
+		"drizzle-seed": "^0.3.1",
 		"pg": "^8.18.0",
 		"postgres": "^3.4.8",
 		"svelte-cloudinary": "^2.3.1",
