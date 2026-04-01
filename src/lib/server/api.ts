@@ -179,14 +179,6 @@ export async function mealEntryInsertTransaction(
     mealId: string | undefined = undefined,
     foodItems: any[],
 ) {
-    // Au lieu de db.transaction, on utilise la méthode transaction du client Neon
-    // Mais attention : Drizzle sur neon-http ne supporte pas bien le tx à l'intérieur.
-
-    // LA SOLUTION LA PLUS SIMPLE AVEC NEON-HTTP :
-    // On fait les requêtes séquentiellement sans le bloc transaction,
-    // ou on repasse au driver 'serverless' via WebSockets (plus complexe à configurer).
-
-    // Voici comment le réécrire sans transaction (Neon HTTP gère bien les requêtes rapides) :
     let finalDiaryDayId = diaryDayId;
     let finalMealId = mealId;
 
