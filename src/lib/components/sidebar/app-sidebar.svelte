@@ -22,28 +22,28 @@
                 icon: DashboardIcon,
             },
             {
-                title: "Weights",
+                title: "Poids",
                 url: "/weight",
                 icon: WeightIcon,
             },
             {
-                title: "Meals",
+                title: "Repas",
                 icon : MealIcon,
                 items: [
                     {
-                        title: "Diary",
+                        title: "Journal",
                         url: "/meal/diary",
                         icon: DiaryIcon,
                     },
                     {
-                        title: "Food items",
+                        title: "Aliments",
                         url: "/meal/food-items",
                         icon: FoodItemIcon,
                     },
                 ],
             },
             {
-                title: "Goal",
+                title: "Objectifs",
                 icon: GoalIcon,
                 url: "/goal",
             }
