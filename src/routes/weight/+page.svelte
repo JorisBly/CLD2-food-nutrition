@@ -8,7 +8,7 @@ let {data} = $props();
 
 </script>
 
-<SideSheet title="Add an entry" textButton="New entry">
+<SideSheet title="Ajouter" textButton="Ajouter">
     <WeightForm {data} />
 </SideSheet>
     <DataTable data={data.weights} {columns} action={"/weight?/delete"}/>
