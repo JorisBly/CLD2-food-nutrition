@@ -12,6 +12,7 @@
     import {Input} from "@/components/ui/input";
     import FoodDialog from "../dialog/food-dialog.svelte";
     import {getFoodImage} from "@/foodImage.ts";
+    import {CldImage} from "svelte-cloudinary";
 
 
 
@@ -53,11 +54,11 @@
                         class="flex items-center justify-between gap-4"
                 >
                     <div class="flex items-center gap-2 flex-1">
-                        <img
-                                src={getFoodImage(food.img)}
-                                alt={food.name}
-                                class="h-8 w-8 rounded-full object-cover"
-                                loading="lazy"
+                        <CldImage
+                                width="50"
+                                height="50"
+                                src="{food.img}"
+                                alt="{food.img}"
                         />
                         <div class={cn(
                     "flex h-4 w-4 shrink-0 items-center justify-center rounded-sm border border-primary",
