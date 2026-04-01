@@ -175,40 +175,48 @@ export async function mealEntryInsertTransaction(
     userId: string,
     date: string,
     mealType: string,
-    diaryDayId: undefined | string = undefined,
-    mealId: undefined | string = undefined,
-    foodItems: Object[],
-){
-await db.transaction(async (tx) => {
+    diaryDayId: string | undefined = undefined,
+    mealId: string | undefined = undefined,
+    foodItems: any[],
+) {
+    // Au lieu de db.transaction, on utilise la méthode transaction du client Neon
+    // Mais attention : Drizzle sur neon-http ne supporte pas bien le tx à l'intérieur.
 
-    if (diaryDayId === undefined){
-        const [insertedDiaryDay] = await tx.insert(diaryDays).values({
+    // LA SOLUTION LA PLUS SIMPLE AVEC NEON-HTTP :
+    // On fait les requêtes séquentiellement sans le bloc transaction,
+    // ou on repasse au driver 'serverless' via WebSockets (plus complexe à configurer).
+
+    // Voici comment le réécrire sans transaction (Neon HTTP gère bien les requêtes rapides) :
+    let finalDiaryDayId = diaryDayId;
+    let finalMealId = mealId;
+
+    if (finalDiaryDayId === undefined) {
+        const [insertedDiaryDay] = await db.insert(diaryDays).values({
             userId: userId,
             date: date
-        }).returning({insertedId: diaryDays.id})
-        diaryDayId = insertedDiaryDay.insertedId
+        }).returning({ insertedId: diaryDays.id });
+        finalDiaryDayId = insertedDiaryDay.insertedId;
     }
 
-    if (mealId === undefined){
-        const [insertedMeal] = await tx.insert(meals).values({
-            diaryDay:  diaryDayId,
+    if (finalMealId === undefined) {
+        const [insertedMeal] = await db.insert(meals).values({
+            diaryDay: finalDiaryDayId,
             type: mealType,
-        }).returning({insertedId: meals.id})
-        mealId = insertedMeal.insertedId
+        }).returning({ insertedId: meals.id });
+        finalMealId = insertedMeal.insertedId;
     }
 
-    for(const food of foodItems){
-        await tx.insert(mealEntries).values({
+    if (foodItems.length > 0) {
+        const entriesToInsert = foodItems.map(food => ({
             userId: userId,
             date: date,
-            mealId: mealId,
+            mealId: finalMealId,
             foodItemId: food.id,
             quantity: food.quantity
-        }).returning({insertedId: mealEntries.id})
+        }));
+
+        await db.insert(mealEntries).values(entriesToInsert);
     }
-
-})
-
 }
 
 export async function createFoodItem(values){
