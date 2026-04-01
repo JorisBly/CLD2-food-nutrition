@@ -1,1 +1,0 @@
-ALTER TABLE "food_items" ADD COLUMN "img" varchar(30) NOT NULL;

@@ -4,7 +4,7 @@ import {mkdirSync} from "fs";
 import {writeFileSync} from "node:fs";
 
 
-export async function downloadImage(imageFile){
+export async function downloadImage(imageFile: File){
     const extension = imageFile.name.split('.').pop();
     const fileName = `${Date.now()}-${Math.random().toString(36).slice(2, 7)}.${extension}`;
 
@@ -16,6 +16,6 @@ export async function downloadImage(imageFile){
     const arrayBuffer = await imageFile.arrayBuffer();
     writeFileSync(filePath, Buffer.from(arrayBuffer));
 
-    return fileName
+    return filePath
 }
 

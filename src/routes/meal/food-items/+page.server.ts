@@ -5,6 +5,7 @@ import {foodSchema} from "./schema.ts";
 import {createFoodItem, getAllFoods, getUserWeights} from "@/server/api.ts";
 import {downloadImage} from "@/file.ts";
 import {registerSchema} from "../../register/schema.ts";
+import {cloudinary, uploadImage} from "@/server/cloudinary.ts";
 
 
 
@@ -34,10 +35,13 @@ export const actions : Actions = {
         const imageFile = form.data.img as File;
 
         if (imageFile && imageFile.size > 0) {
-
-            form.data.img = await downloadImage(imageFile);
+            const arrayBuffer = await imageFile.arrayBuffer();
+            const buffer = Buffer.from(arrayBuffer);
+            form.data.img = await uploadImage(buffer)
         }
-       await  createFoodItem(form.data)
+
+
+        await  createFoodItem(form.data)
 
     }
 }

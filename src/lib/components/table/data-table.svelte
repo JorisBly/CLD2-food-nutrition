@@ -5,7 +5,8 @@
         FlexRender,
     } from "@/components/ui/data-table";
     import * as Table from "@/components/ui/table";
-    import {getFoodImage} from "@/foodImage.ts";
+    import {CldImage} from "svelte-cloudinary";
+
 
     type DataTableProps<TData, TValue> = {
         columns: ColumnDef<TData, TValue>[];
@@ -47,12 +48,12 @@
                     {#each row.getVisibleCells() as cell (cell.id)}
                         <Table.Cell>
                             {#if cell.column.id === 'img'}
-                                <img
-                                        src={getFoodImage(cell.getValue())}
-                                        alt={cell.getValue()}
-                                        class="h-8 w-8 rounded-full object-cover"
-                                        loading="lazy"
-                                />
+                                <CldImage
+                                        width="50"
+                                        height="50"
+                                        src="{cell.getValue()}"
+                                        alt="{cell.getValue()}"
+                                    />
                                 {:else}
                             <FlexRender
                                     content={cell.column.columnDef.cell}
