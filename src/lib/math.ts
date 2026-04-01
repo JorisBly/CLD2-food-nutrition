@@ -13,22 +13,30 @@ export function calculateDailyTotals(days: any[]) {
 
         day.meals.forEach(meal => {
             meal.entries.forEach(entry => {
-                const food = entry.food
+                const food = entry.food;
+                if (!food) return;
 
-                const ratio = (entry.quantity || 0) / 100
+                const ratio = (Number(entry.quantity) || 0) / 100;
 
-                if (food) {
-                    totals.calories += (food.calories || 0) * ratio
-                    totals.proteins += (food.proteins || 0) * ratio
-                    totals.carbs += (food.carbs || 0) * ratio
-                    totals.fats += (food.fats || 0) * ratio
-                }
+                const p = (Number(food.proteins) || 0) * ratio;
+                const c = (Number(food.carbs) || 0) * ratio;
+                const f = (Number(food.fats) || 0) * ratio;
+
+                const itemCalories = (p * 4) + (c * 4) + (f * 9);
+
+                totals.proteins += p;
+                totals.carbs += c;
+                totals.fats += f;
+                totals.calories += itemCalories;
             });
         });
 
         return {
             date: day.date,
-            ...totals
+            calories: Math.round(totals.calories),
+            proteins: Number(totals.proteins.toFixed(1)),
+            carbs: Number(totals.carbs.toFixed(1)),
+            fats: Number(totals.fats.toFixed(1))
         };
     });
 }

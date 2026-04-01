@@ -14,9 +14,9 @@
 </SideSheet>
 <Card title="Ajouter une entrée">
     <div class="flex flex-row">
-    <MealCollapsible mealType="breakfast" items={data.dailyDiaries !== null ? data.dailyDiaries.meals : []} />
-    <MealCollapsible mealType="lunch" items={data.dailyDiaries !== null ? data.dailyDiaries.meals : []}/>
-    <MealCollapsible mealType="dinner" items={data.dailyDiaries !== null ? data.dailyDiaries.meals : []}/>
-    <MealCollapsible mealType="snack" items={data.dailyDiaries !== null ? data.dailyDiaries.meals : []}/>
+    <MealCollapsible title="Déjeuner" mealType="breakfast" items={data.dailyDiaries !== null ? data.dailyDiaries.meals : []} />
+    <MealCollapsible title="Diner" mealType="lunch" items={data.dailyDiaries !== null ? data.dailyDiaries.meals : []}/>
+    <MealCollapsible title="Souper" mealType="dinner" items={data.dailyDiaries !== null ? data.dailyDiaries.meals : []}/>
+    <MealCollapsible title="Encas" mealType="snack" items={data.dailyDiaries !== null ? data.dailyDiaries.meals : []}/>
     </div>
 </Card>

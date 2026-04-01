@@ -3,7 +3,7 @@
     import * as Collapsible from "$lib/components/ui/collapsible/index.js";
     import { buttonVariants } from "$lib/components/ui/button/index.js";
 
-    let {items, mealType} = $props()
+    let {items, mealType, title} = $props()
 
     let filteredItems = $derived(items.filter((item) => {
         return  item.type === mealType
@@ -11,9 +11,9 @@
 
 </script>
 
-<Collapsible.Root class="w-[350px] space-y-2">
+<Collapsible.Root open="true" class="w-[350px] space-y-2">
     <div class="flex items-center justify-between space-x-4 px-4">
-        <h4 class="text-sm font-semibold uppercase">{mealType}</h4>
+        <h4 class="text-sm font-semibold uppercase">{title}</h4>
         <Collapsible.Trigger
                 class={buttonVariants({ variant: "ghost", size: "sm", class: "w-9 p-0" })}
         >
