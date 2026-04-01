@@ -250,3 +250,8 @@ export async function endCurrentGoal(userId: string){
         ))
 
 }
+
+export async function deleteById(table:any, id: string){
+    await db.delete(table).where(eq(table.id, id))
+
+}

@@ -11,4 +11,4 @@ let {data} = $props();
 <SideSheet title="Add an entry" textButton="New entry">
     <WeightForm {data} />
 </SideSheet>
-    <DataTable data={data.weights} {columns}/>
+    <DataTable data={data.weights} {columns} action={"/weight?/delete"}/>

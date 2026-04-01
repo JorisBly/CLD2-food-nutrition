@@ -2,10 +2,9 @@ import {type Actions, fail, redirect} from "@sveltejs/kit";
 import {superValidate} from "sveltekit-superforms";
 import {zod4} from "sveltekit-superforms/adapters";
 import {foodSchema} from "./schema.ts";
-import {createFoodItem, getAllFoods, getUserWeights} from "@/server/api.ts";
-import {downloadImage} from "@/file.ts";
-import {registerSchema} from "../../register/schema.ts";
-import {cloudinary, uploadImage} from "@/server/cloudinary.ts";
+import {createFoodItem, deleteById, getAllFoods} from "@/server/api.ts";
+import { uploadImage} from "@/server/cloudinary.ts";
+import {foodItems} from "@/server/db/schema";
 
 
 
@@ -43,5 +42,24 @@ export const actions : Actions = {
 
         await  createFoodItem(form.data)
 
+    },
+
+    delete: async ({ request }) => {
+        const formData = await request.formData();
+
+        const id = formData.get('id');
+
+        if (!id) {
+            return fail(400, { message: "ID manquant" });
+        }
+
+        try {
+            await deleteById(foodItems, id)
+
+            return { success: true };
+        } catch (error) {
+            console.error("Erreur suppression:", error);
+            return fail(500, { message: "Impossible de supprimer l'élément" });
+        }
     }
 }

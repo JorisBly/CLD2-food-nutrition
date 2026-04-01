@@ -28,4 +28,8 @@ export const columns: ColumnDef<FoodItem>[] = [
         accessorKey: "fats",
         header: "Graisse (100gr)",
     },
+    {
+        accessorKey: "id",
+        header: ""
+    }
 ];

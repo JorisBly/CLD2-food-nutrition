@@ -1,4 +1,4 @@
-import {getUserWeights} from "@/server/api.ts";
+import {deleteById, getUserWeights} from "@/server/api.ts";
 import {type Actions, fail, redirect} from "@sveltejs/kit";
 import {superValidate} from "sveltekit-superforms";
 import {zod4} from "sveltekit-superforms/adapters";
@@ -6,6 +6,7 @@ import {weightSchema} from "./schema.ts";
 import {registerSchema} from "../register/schema.ts";
 import {db} from "@/server/db";
 import {weightEntries} from "@/server/db/schema/weight_entries.ts";
+import {foodItems} from "@/server/db/schema";
 
 
 export async function load({ parent }) {
@@ -37,7 +38,24 @@ export const actions : Actions = {
         }else{
             throw new Error("User not found")
         }
+    },
 
+    delete: async ({ request }) => {
+        const formData = await request.formData();
 
+        const id = formData.get('id');
+
+        if (!id) {
+            return fail(400, { message: "ID manquant" });
+        }
+
+        try {
+            await deleteById(weightEntries, id)
+
+            return { success: true };
+        } catch (error) {
+            console.error("Erreur suppression:", error);
+            return fail(500, { message: "Impossible de supprimer l'élément" });
+        }
     }
 }

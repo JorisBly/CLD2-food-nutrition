@@ -12,4 +12,8 @@ export const columns: ColumnDef<WeightEntry>[] = [
         accessorKey: "date",
         header: "Date",
     },
+    {
+        accessorKey: "id",
+        header: "",
+    },
 ];

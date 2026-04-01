@@ -10,4 +10,4 @@
 <SideSheet title="Add an entry" textButton="New entry">
     <FoodForm foodForm={data.form} />
 </SideSheet>
-<DataTable data={data.foods} {columns}/>
+<DataTable data={data.foods} {columns} action="/meal/food-items?/delete" />
