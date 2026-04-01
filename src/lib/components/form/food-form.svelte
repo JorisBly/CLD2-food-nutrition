@@ -35,7 +35,7 @@
                     <FormControl>
                         {#snippet children({ props })}
 
-                            <FormLabel>Name</FormLabel>
+                            <FormLabel>Nom</FormLabel>
                             <Input type="text" step="0.1" {...props} bind:value={$formData.name} />
 
                         {/snippet}
@@ -46,7 +46,7 @@
                     <FormControl>
                         {#snippet children({ props })}
 
-                            <FormLabel>Proteins</FormLabel>
+                            <FormLabel>Proteines</FormLabel>
                             <Input type="number" step="0.1" {...props} bind:value={$formData.proteins} />
 
                         {/snippet}
@@ -57,7 +57,7 @@
                     <FormControl>
                         {#snippet children({ props })}
 
-                            <FormLabel>Carbs</FormLabel>
+                            <FormLabel>Fibres</FormLabel>
                             <Input type="number" step="0.1" {...props} bind:value={$formData.carbs} />
 
                         {/snippet}
@@ -68,7 +68,7 @@
                     <FormControl>
                         {#snippet children({ props })}
 
-                            <FormLabel>Fats</FormLabel>
+                            <FormLabel>Graisses</FormLabel>
                             <Input type="number" step="0.1" {...props} bind:value={$formData.fats} />
 
                         {/snippet}
@@ -86,7 +86,7 @@
                     </FormControl>
                 </Field>
 
-                <Button type="submit" class="w-full">Create</Button>
+                <Button type="submit" class="w-full">Crée</Button>
             </FieldGroup>
         </form>
 

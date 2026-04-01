@@ -52,13 +52,13 @@
                 <Field  {form} name="mealType">
                     <FormControl>
                         {#snippet children({ props })}
-                            <FormLabel>Meal type</FormLabel>
+                            <FormLabel>Type de repas</FormLabel>
                             <FormSelect {...props} bind:value={$formData.mealType}
                                         choices={[
-                                           { value: 'breakfast', label: 'Breakfast'},
-                                           { value: 'lunch', label: 'Lunch'},
-                                           { value:'dinner', label: 'Dinner'},
-                                           { value: 'snack', label: 'Snack'},
+                                           { value: 'breakfast', label: 'Déjeuner'},
+                                           { value: 'lunch', label: 'Diner'},
+                                           { value:'dinner', label: 'Souper'},
+                                           { value: 'snack', label: 'Encas'},
                                            ]}/>
                         {/snippet}
 
@@ -68,12 +68,12 @@
                     <FormControl>
                         {#snippet children({ props })}
 
-                            <FormLabel>Food</FormLabel>
+                            <FormLabel>Aliments</FormLabel>
                            <SearchInputResults foodForm={data.foodForm} {...props} bind:selectedItems={$formData.foodItems} foods={data.foods}/>
                         {/snippet}
                     </FormControl>
                 </Field>
-                <Button type="submit" class="w-full">Create</Button>
+                <Button type="submit" class="w-full">Crée</Button>
             </FieldGroup>
         </form>
 

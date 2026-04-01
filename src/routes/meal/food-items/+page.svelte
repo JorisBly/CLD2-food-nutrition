@@ -7,7 +7,7 @@
 
 </script>
 
-<SideSheet title="Ajouter" textButton="Ajouter">
+<SideSheet title="Ajouter un aliment" textButton="Ajouter">
     <FoodForm foodForm={data.form} />
 </SideSheet>
 <DataTable data={data.foods} {columns} action="/meal/food-items?/delete" />

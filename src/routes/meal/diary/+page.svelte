@@ -9,10 +9,10 @@
 
 </script>
 
-<SideSheet title="Add an entry" textButton="New entry">
+<SideSheet title="Ajouter une entrée" textButton="Nouvelle entrée">
     <DailyMealForm {data} />
 </SideSheet>
-<Card title="Add an entry">
+<Card title="Ajouter une entrée">
     <div class="flex flex-row">
     <MealCollapsible mealType="breakfast" items={data.dailyDiaries !== null ? data.dailyDiaries.meals : []} />
     <MealCollapsible mealType="lunch" items={data.dailyDiaries !== null ? data.dailyDiaries.meals : []}/>

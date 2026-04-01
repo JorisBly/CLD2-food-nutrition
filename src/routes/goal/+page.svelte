@@ -7,7 +7,7 @@
     let {data} = $props();
 </script>
 
-<SideSheet title="Changer objectif actuel" textButton="Change current goal">
+<SideSheet title="Changer objectif actuel" textButton="Changer objectif actuel">
     <NutritionGoalForm {data}/>
 </SideSheet>
 <DataTable data={data.oldGoals} {columns}/>
