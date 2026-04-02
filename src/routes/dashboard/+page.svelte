@@ -3,8 +3,6 @@
     import ChartStackedMacro from "@/components/chart/chart-stacked-macro.svelte";
 
     let {data} = $props()
-    console.log(data.charts[0].macroChartData)
-    console.log(data.charts[0].weightChartData)
 </script>
 
 {#each data.charts as chart }
