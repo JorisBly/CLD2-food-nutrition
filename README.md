@@ -28,15 +28,15 @@ Créez un fichier `.env` à la racine du projet et ajoutez les variables suivant
 
 ```env
 # Database (Neon.tech)
-DATABASE_URL="postgresql://neondb_owner:npg_E2dDOh1wYLeC@ep-twilight-recipe-agipw75m-pooler.c-2.eu-central-1.aws.neon.tech/neondb?sslmode=require"
+DATABASE_URL="neon_url"
 
 # Cloudinary Config
-CLOUDINARY_CLOUD_NAME="dlzdbzwlo"
-CLOUDINARY_API_KEY="847555512416277"
-CLOUDINARY_API_SECRET="Rqk70OnnB7A8yKARj-GbTRaIFsw"
+CLOUDINARY_CLOUD_NAME="cloudinary_cloud_name"
+CLOUDINARY_API_KEY="cloudinary_api_key"
+CLOUDINARY_API_SECRET="cloudinary_api_secret"
 
 # Public Cloudinary (pour l'affichage client)
-VITE_CLOUDINARY_CLOUD_NAME="dlzdbzwlo"
+VITE_CLOUDINARY_CLOUD_NAME="cloudinary_cloud_name"
 ```
 
 ### 4. Initialiser la base de données
